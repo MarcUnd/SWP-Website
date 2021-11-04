@@ -1,3 +1,9 @@
-﻿.headNav{
-    
+﻿.headNav {
+
+}
+
+.imgBackground {
+    height: 360px;
+    background-color: black;
+    background-image: url('../multimedia/pizzaLong.jpg');
 }
