@@ -1,9 +1,13 @@
 ﻿.headNav {
-
+    color:white;
 }
 
 .imgBackground {
     height: 360px;
     background-color: black;
     background-image: url('../multimedia/pizzaLong.jpg');
+}
+.headline{
+    color:lightgray;
+    padding-left:10px;
 }
