@@ -5,16 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace LuigiWebsite.Controllers {
-    public class HomeController : Controller {
-        public IActionResult Index() {
+    public class CustomerController : Controller {
+        public IActionResult Reservation() {
             return View();
         }
 
-        public IActionResult Location() {
-            return View();
-        }
-
-        public IActionResult Employees() {
+        public IActionResult Login() {
             return View();
         }
     }
