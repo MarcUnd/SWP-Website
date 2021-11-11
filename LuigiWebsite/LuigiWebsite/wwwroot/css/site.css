@@ -20,8 +20,16 @@ footer {
     clear: both;
     border-top: 1px solid #a7a4a4;
 }
+
 footer li {
-    display: inline;
-    list-style-type: none;
-    padding: 0px;
+    display: inline-block;
+    list-style-type: none
+}
+
+footer ul {
+    
+}
+
+listAlignLeft {
+    margin-right:50px;
 }
