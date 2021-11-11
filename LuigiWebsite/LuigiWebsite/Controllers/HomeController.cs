@@ -17,5 +17,9 @@ namespace LuigiWebsite.Controllers {
         public IActionResult Employees() {
             return View();
         }
+
+        public IActionResult Impressum() {
+            return View();
+        }
     }
 }
