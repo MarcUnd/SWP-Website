@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace LuigiWebsite.Controllers {
+        //hello
     public class HomeController : Controller {
         public IActionResult Index() {
             return View();
