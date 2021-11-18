@@ -1,7 +1,29 @@
-﻿
+﻿@model List<LuigiWebsite.Models.MenuDB>
+
 @{
     ViewData["Title"] = "Menu";
 }
 
-<h1>Menu</h1>
+<h1 style="margin:10px;">Luigi´s Pizza Menu</h1>
+
+@if ((Model != null) && (Model.Count >= 1)) {
+
+    
+    @foreach (MenuDB m in Model) {        
+        <hr color="black" />
+        <div style="text-align:center;">
+            <div style="font-weight: bold; font-size: 15px;">@m.Name</div>
+            <div>@m.Zutaten</div>
+            <div>@m.Preis€</div>
+        </div>
+        <br />
+    }
+
+
+
+} else {
+    <p>
+        Kein Menu!!!
+    </p>
+}
 
