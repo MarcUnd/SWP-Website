@@ -18,6 +18,7 @@ content{
     height: 280px;
     background-color: black;
     background-image: url('../multimedia/pizzaLong.jpg');
+    border-bottom:solid;
 }
 .headline{
     color:darkslategrey;
@@ -62,4 +63,8 @@ a:hover {
 
 .right{
     width:25%
+}
+
+Iframe{
+    margin:5px 10px 5px 25px;
 }
