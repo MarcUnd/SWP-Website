@@ -11,7 +11,6 @@ namespace LuigiWebsite.Models {
         public string nachname { get; set; }
         public string password { get; set; }
         public DateTime BirthDate { get; set; }
-
         
     }
 }
