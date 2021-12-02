@@ -10,6 +10,7 @@ namespace LuigiWebsite.Controllers {
         public IActionResult Reservation() {
             return View();
         }
+
         [HttpPost]
         public IActionResult Resgistration(user userData) {
             if(userData == null) {
@@ -17,6 +18,12 @@ namespace LuigiWebsite.Controllers {
             }
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Resgistration() {
+            return View();
+        }
+
         public IActionResult Login() {
             return View();
         }
