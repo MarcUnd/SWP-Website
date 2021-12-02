@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LuigiWebsite.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,13 @@ namespace LuigiWebsite.Controllers {
         public IActionResult Reservation() {
             return View();
         }
-
+        [HttpPost]
+        public IActionResult Resgistration(user userData) {
+            if(userData == null) {
+                return RedirectToAction("Registration");
+            }
+            return View();
+        }
         public IActionResult Login() {
             return View();
         }
