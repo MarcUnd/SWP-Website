@@ -23,6 +23,12 @@ namespace LuigiWebsite.Controllers {
             return View(userData);
         }
 
+        [HttpGet]
+        public IActionResult Registration() {
+            return View();
+        }
+
+
         private void ValidateRegistrationData(user u) {
            if (u == null) {
                 return;

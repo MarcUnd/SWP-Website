@@ -1,4 +1,4 @@
-﻿
+﻿@model LuigiWebsite.Models.user
 @{
     ViewData["Title"] = "Login";
 }
@@ -9,16 +9,18 @@
     <div class="form-group w-50 mx-auto">
         <label asp-for="email">Email</label>
         <input type="email" class="form-control" placeholder="luigi.luigi@luigi.luigi" asp-for="email" required />
+        <span asp-validation-for="email"></span>
 
     </div>
     <div class="form-group w-50 mx-auto">
         <label asp-for="password">Password</label>
         <input type="password" class="form-control" placeholder="12345..." asp-for="password" required />
+        <span asp-validation-for="password"></span>
 
     </div>
     <div class="btn-group" style="float:right;">
-        <a href="/home/index" class="ml-5 btn btn-outline-success">Anmelden</a>
-        <a href="/customer/resgistration" class="mr-5 btn btn-outline-info">Registrieren</a>
+        <button type="submit" class="ml-5 btn btn-outline-success">Anmelden</button>
+        <a href="/customer/registration" class="mr-5 btn btn-outline-info">Registrieren</a>
     </div>
 </form>
 

@@ -8,31 +8,36 @@
 <form asp-controller="user" asp-action="resgistration" method="post">
     <div class="form-group w-50 mx-auto">
         <label asp-for="vorname">Vorname</label>
-        <input type="email" class="form-control" placeholder="Luigi" asp-for="vorname" required />
+        <input type="text" class="form-control" placeholder="Luigi" asp-for="vorname" required />
+        <span asp-validation-for="vorname"></span>
 
     </div>
     <div class="form-group w-50 mx-auto">
         <label asp-for="nachname">Nachname</label>
-        <input type="email" class="form-control" placeholder="Giovinazzi" asp-for="nachname" required />
+        <input type="text" class="form-control" placeholder="Giovinazzi" asp-for="nachname" required />
+        <span asp-validation-for="nachname"></span>
 
     </div>
     <div class="form-group w-50 mx-auto">
         <label asp-for="email">Email</label>
         <input type="email" class="form-control" placeholder="luigi.luigi@luigi.luigi" asp-for="email" required />
+        <span asp-validation-for="email"></span>
 
     </div>
     <div class="form-group w-50 mx-auto">
         <label asp-for="password">Password</label>
         <input type="password" class="form-control" placeholder="12345..." asp-for="password" required />
+        <span asp-validation-for="password"></span>
 
     </div>
     <div class="form-group w-50 mx-auto">
         <label asp-for="BirthDate">Geburtstag</label>
         <input type="date" class="form-control" placeholder="01.01.1999" asp-for="BirthDate" required />
+        <span asp-validation-for="BirthDate"></span>
 
     </div>
     <div class="btn-group" style="float:right;">
-        <a href="/home/index" class="ml-5 btn btn-outline-success">Registrieren</a>
+        <button type="submit" class="ml-5 btn btn-outline-success">Registrieren</button>
     </div>
 </form>
 
