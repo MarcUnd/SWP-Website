@@ -1,29 +1,26 @@
-﻿@model LuigiWebsite.Models
+﻿
 @{
     ViewData["Title"] = "Login";
 }
 
 <h1>Login</h1>
 
-<form asp-controller="user" asp-action="registration" method="post">
-    <div class="form-group w-50 mx-auto">
-        <label asp-for="Email">Email</label>
-        <input type="email" class="form-control" placeholder="Email Adresse" asp-for="Email" required />
+    <form>
+        <div class="form-group w-50 mx-auto">
+            <label for="email"> Email :</label>
+            <input type="email" class="form-control" placeholder="Email Adresse" id="email" required />
         
-    </div>
-    <div class="form-group w-50 mx-auto">
-        <label for="pwd">Password</label>
-        <input type="password" class="form-control" placeholder="12345..." id="pwd" required />
-       
-    </div>
-    <div class="form-group w-50 mx-auto">
-        <label for="pwd">Birthdate</label>
-        <input type="date" class="form-control" placeholder="01.01.1999" id="bd" required />
+
+        </div>
+        <div class="form-group w-50 mx-auto">
+            <label for="pwd"> Password :</label>
+            <input type="password" class="form-control" placeholder="12345..." id="pwd" required />
         
-    </div>
-    <div class="btn-group" style="float:right;">
-        <a href="/home/index" class="ml-5 btn btn-outline-success">Anmelden</a>
-        <button type="submit" class="mr-5 btn btn-outline-info">Registrieren</button>
-    </div>
-</form>
+           
+        </div>
+        <div class="btn-group" style="float:right;">
+            <a href="/home/index" class="ml-5 btn btn-outline-success">Anmelden</a>
+            <button type="submit" class="mr-5 btn btn-outline-info">Registrieren</button>
+        </div>
+    </form>
 
