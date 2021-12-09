@@ -35,10 +35,10 @@ namespace LuigiWebsite.Controllers {
             if (r.email == null) {
                 ModelState.AddModelError("email", "Bitte tragen sie einen Emailaddresse ein!");
             }
-            if (r.number <0 ) {
+            if (r.number < 0 ) {
                 ModelState.AddModelError("number", "Bitte tragen sie eine richtige Telefonnummer ein!");
             }
-            if (r.date < DateTime.Now) {
+            if (r.date > DateTime.Now || r.date.AddYears(4) > DateTime.Now) {
                 ModelState.AddModelError("date", "Das Datum kann nicht in der Vergangenheit liegen!");
             }
             if (r.uhrzeit == null) {
