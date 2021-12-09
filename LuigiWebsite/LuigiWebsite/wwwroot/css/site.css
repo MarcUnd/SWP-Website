@@ -68,3 +68,8 @@ a:hover {
 Iframe{
     margin:5px 10px 5px 25px;
 }
+
+.dummerButton {
+    margin: auto;
+    border: 3px solid green;
+}
