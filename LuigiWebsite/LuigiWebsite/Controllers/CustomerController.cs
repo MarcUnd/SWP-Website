@@ -15,7 +15,36 @@ namespace LuigiWebsite.Controllers {
 
         [HttpPost]
         public IActionResult Reservation(reservation reservationData) {
-            return View();
+            if (reservationData== null) {
+                return RedirectToAction("reservation");
+            }
+            ValidateReservationData(reservationData);
+            if (ModelState.IsValid) {
+                return RedirectToAction("index","Home");
+            }
+            return View(reservationData);
+        }
+
+        private void ValidateReservationData(reservation r) {
+            if (r == null) {
+                return;
+            }
+            if (r.nachname == null) {
+                ModelState.AddModelError("nachnem", "Bitte tragen sie einen Nachnamen ein!");
+            }
+            if (r.email == null) {
+                ModelState.AddModelError("email", "Bitte tragen sie einen Emailaddresse ein!");
+            }
+            if (r.number <0 ) {
+                ModelState.AddModelError("number", "Bitte tragen sie eine richtige Telefonnummer ein!");
+            }
+            if (r.date < DateTime.Now) {
+                ModelState.AddModelError("date", "Das Datum kann nicht in der Vergangenheit liegen!");
+            }
+            if (r.uhrzeit == null) {
+                ModelState.AddModelError("uhrzeit", "Bitte tragen sei eine Uhrzeit ein!");
+
+            }
         }
 
         [HttpPost]
