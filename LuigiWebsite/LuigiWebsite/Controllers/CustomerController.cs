@@ -40,16 +40,16 @@ namespace LuigiWebsite.Controllers {
            if (u == null) {
                 return;
             }
-           if(u.vorname == null) {
-                ModelState.AddModelError("vorname", "Bitte tragen sie einen Vornamen ein!");
+           if(u.vorname == null || u.vorname.Length < 3) {
+                ModelState.AddModelError("vorname", "Bitte tragen sie einen Vornamen ein, welcher länger als 3 Zeichen ist!");
             }
-            if(u.nachname == null) {
-                ModelState.AddModelError("nachname", "Bitte tragen sie einen Nachnamen ein!");
+            if(u.nachname == null || u.nachname.Length < 3) {
+                ModelState.AddModelError("nachname", "Bitte tragen sie einen Nachnamen ein, welcher länger als 3 Zeichen ist!");
             }
             if(u.password == null || u.password.Length < 8) {
                 ModelState.AddModelError("password", "Ihr Passwort muss mindesten acht Zeichen lang sein!");
             }
-            if (u.BirthDate > DateTime.Now) {
+            if (u.BirthDate > DateTime.Now || u.BirthDate.AddYears(16)  > DateTime.Now) {
                 ModelState.AddModelError("BirthDate", "Das Geburstdatum kann nicht in der Zukunft liegen!");
             }
             if(u.email == null) {
