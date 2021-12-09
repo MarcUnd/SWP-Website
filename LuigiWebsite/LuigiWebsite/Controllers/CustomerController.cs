@@ -7,7 +7,14 @@ using System.Threading.Tasks;
 
 namespace LuigiWebsite.Controllers {
     public class CustomerController : Controller {
+
+        [HttpGet]
         public IActionResult Reservation() {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Reservation(reservation reservationData) {
             return View();
         }
 

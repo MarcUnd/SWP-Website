@@ -8,18 +8,22 @@ namespace LuigiWebsite.Models {
 
         private int _resId;
 
-        public int ResId { 
-            get { return this._resId}
+        public int ResId {
+            get { return this._resId; }
             set { if (value >= 1) {
                     this._resId = value;
                 }
             } 
         }
 
-        public string Nachname { get; set; }
+        public string nachname { get; set; }
 
-        public DateTime Date { get; set; }
+        public string email { get; set; }
 
-        public int Number { get; set; }
+        public DateTime date { get; set; }
+
+        public string uhrzeit { get; set; }
+
+        public int number { get; set; }
     }
 }
