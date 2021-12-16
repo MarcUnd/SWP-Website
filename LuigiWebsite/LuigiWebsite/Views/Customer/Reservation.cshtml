@@ -1,4 +1,5 @@
 ﻿@model LuigiWebsite.Models.reservation
+
 @{
     ViewData["Title"] = "Reservation";
 }
@@ -20,17 +21,17 @@
     </div>
     <div class="form-group w-50 mx-auto">
         <label asp-for="number">Telefonnummer</label>
-        <input type="tel" class="form-control" placeholder="0000 0000000" asp-for="number" required />
+        <input type="tel" class="form-control" placeholder="+43 650 5201956" asp-for="number" pattern="[+]{1}[0-9]{2} [0-9]{3} [0-9]{7}|[0-9]{4} [0-9]{7}|[+]{1}[0-9]{2}[0-9]{3}[0-9]{7}|[0-9]{4}[0-9]{7}" required />
         <span asp-validation-for="number"></span>
 
     </div>
     <div class="form-group w-50 mx-auto">
         <label asp-for="uhrzeit">Datum</label>
-        <input type="time" class="form-control" placeholder="01.01.1999" asp-for="uhrzeit" required />
+        <input type="time" class="form-control" asp-for="uhrzeit" required />
         <span asp-validation-for="uhrzeit"></span>
 
         <label asp-for="date">Datum</label>
-        <input type="date" class="form-control" placeholder="11:11" asp-for="date" required />
+        <input type="date" class="form-control" asp-for="date" required />
         <span asp-validation-for="date"></span>
 
     </div>
@@ -38,3 +39,7 @@
         <button type="submit" class="ml-5 btn btn-outline-success">Reservieren</button>
     </div>
 </form>
+
+
+
+

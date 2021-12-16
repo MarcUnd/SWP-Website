@@ -24,6 +24,6 @@ namespace LuigiWebsite.Models {
 
         public string uhrzeit { get; set; }
 
-        public int number { get; set; }
+        public string number { get; set; }
     }
 }
