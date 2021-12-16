@@ -1,4 +1,4 @@
-﻿using LuigiWebsite.Models;
+using LuigiWebsite.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -38,7 +38,7 @@ namespace LuigiWebsite.Controllers {
             if (r.number < 0) {
                 ModelState.AddModelError("number", "Bitte tragen sie eine richtige Telefonnummer ein!");
             }
-            if (r.date < DateTime.Now) {
+            if (r.date > DateTime.Now || r.date.AddYears(4) > DateTime.Now) {
                 ModelState.AddModelError("date", "Das Datum kann nicht in der Vergangenheit liegen!");
             }
             if (r.uhrzeit == null) {
@@ -78,7 +78,7 @@ namespace LuigiWebsite.Controllers {
             if (u.password == null || u.password.Length < 8) {
                 ModelState.AddModelError("password", "Ihr Passwort muss mindesten acht Zeichen lang sein!");
             }
-            if (u.BirthDate > DateTime.Now) {
+            if (u.BirthDate > DateTime.Now || u.BirthDate.AddYears(16)  > DateTime.Now) {
                 ModelState.AddModelError("BirthDate", "Das Geburstdatum kann nicht in der Zukunft liegen!");
             }
             if (u.email == null) {
