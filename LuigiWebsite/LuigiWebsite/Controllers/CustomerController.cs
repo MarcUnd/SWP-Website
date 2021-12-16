@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace LuigiWebsite.Controllers {
@@ -35,10 +36,10 @@ namespace LuigiWebsite.Controllers {
             if (r.email == null) {
                 ModelState.AddModelError("email", "Bitte tragen sie einen Emailaddresse ein!");
             }
-            if (r.number < 0 ) {
+            if (r.number == null) {
                 ModelState.AddModelError("number", "Bitte tragen sie eine richtige Telefonnummer ein!");
             }
-            if (r.date > DateTime.Now || r.date.AddYears(4) > DateTime.Now) {
+            if (r.date < DateTime.Now.AddDays(-1)) {
                 ModelState.AddModelError("date", "Das Datum kann nicht in der Vergangenheit liegen!");
             }
             if (r.uhrzeit == null) {
