@@ -15,12 +15,12 @@ namespace LuigiWebsite.Controllers {
 
         [HttpPost]
         public IActionResult Reservation(reservation reservationData) {
-            if (reservationData== null) {
+            if (reservationData == null) {
                 return RedirectToAction("reservation");
             }
             ValidateReservationData(reservationData);
             if (ModelState.IsValid) {
-                return RedirectToAction("index","Home");
+                return RedirectToAction("index", "Home");
             }
             return View(reservationData);
         }
@@ -35,7 +35,7 @@ namespace LuigiWebsite.Controllers {
             if (r.email == null) {
                 ModelState.AddModelError("email", "Bitte tragen sie einen Emailaddresse ein!");
             }
-            if (r.number <0 ) {
+            if (r.number < 0) {
                 ModelState.AddModelError("number", "Bitte tragen sie eine richtige Telefonnummer ein!");
             }
             if (r.date < DateTime.Now) {
@@ -49,7 +49,7 @@ namespace LuigiWebsite.Controllers {
 
         [HttpPost]
         public IActionResult Registration(user userData) {
-            if(userData == null) {
+            if (userData == null) {
                 return RedirectToAction("Registration");
             }
             ValidateRegistrationData(userData);
@@ -66,31 +66,53 @@ namespace LuigiWebsite.Controllers {
 
 
         private void ValidateRegistrationData(user u) {
-           if (u == null) {
+            if (u == null) {
                 return;
             }
-           if(u.vorname == null) {
+            if (u.vorname == null) {
                 ModelState.AddModelError("vorname", "Bitte tragen sie einen Vornamen ein!");
             }
-            if(u.nachname == null) {
+            if (u.nachname == null) {
                 ModelState.AddModelError("nachname", "Bitte tragen sie einen Nachnamen ein!");
             }
-            if(u.password == null || u.password.Length < 8) {
+            if (u.password == null || u.password.Length < 8) {
                 ModelState.AddModelError("password", "Ihr Passwort muss mindesten acht Zeichen lang sein!");
             }
             if (u.BirthDate > DateTime.Now) {
                 ModelState.AddModelError("BirthDate", "Das Geburstdatum kann nicht in der Zukunft liegen!");
             }
-            if(u.email == null) {
+            if (u.email == null) {
                 ModelState.AddModelError("email", "Bitte tragen sie eine Email-Addresse ein!");
 
             }
-
-
         }
 
+        [HttpPost]
+        public IActionResult Login(user userData) {
+            if (userData == null) {
+                return RedirectToAction("Login");
+            }
+            ValidateLoginData(userData);
+            if (ModelState.IsValid) {
+                return RedirectToAction("index", "Home");
+            }
+            return View(userData);
+        }
+        [HttpGet]
         public IActionResult Login() {
             return View();
         }
+
+        private void ValidateLoginData(user u) {
+            if (u == null) {
+                return;
+            }
+            if (u.email == null) {
+                ModelState.AddModelError("email", "Bitte tragen sie eine Email-Addresse ein!");
+            }
+            if (u.password == null || u.password.Length < 8) {
+                ModelState.AddModelError("password", "Ihr Passwort muss mindesten acht Zeichen lang sein!");
+            }
+        }
     }
-}
+}    
