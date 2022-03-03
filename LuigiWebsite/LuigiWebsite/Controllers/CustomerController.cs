@@ -82,7 +82,7 @@ namespace LuigiWebsite.Controllers {
             if (u.password == null || u.password.Length < 8) {
                 ModelState.AddModelError("password", "Ihr Passwort muss mindesten acht Zeichen lang sein!");
             }
-            if (u.BirthDate > DateTime.Now || u.BirthDate.AddYears(16)  > DateTime.Now) {
+            if (u.BirthDate > DateTime.Now || u.BirthDate.AddYears(16) > DateTime.Now) {
                 ModelState.AddModelError("BirthDate", "Das Geburstdatum kann nicht in der Zukunft liegen!");
             }
             if (u.email == null) {
@@ -92,38 +92,31 @@ namespace LuigiWebsite.Controllers {
         }
 
         [HttpPost]
-        public IActionResult Login(user userData) {
-            if (userData == null) {
-                return RedirectToAction("Login");
-            }
-            try {
-                _rep.Connect();
-                if(_rep.)
-            } catch (DbException) {
-                return View("_Message", new Message("Benutzer", "Datenbankfehler", "Bitte versuchen Sie es später erneut!"));
-            } finally {
-                _rep.Disconnect();
-            }
-            ValidateLoginData(userData);
-            
+        public IActionResult Login(String username, String password) {
             if (ModelState.IsValid) {
-                return RedirectToAction("index", "Home");
+                try {
+                    _rep.Connect();
+                    if (_rep.isUser(username, password)) {
+                        //MessageView aufrufen
+                        return View("_Message", new Message("Login", "Sie haben sich erfolgreich eingelogt!"));
+                    } else {
+                        return View("_Message", new Message("Login", "Sie haben sich NICHT erfolgreich eingelogt!!",
+                            "Bitte versuchen sie es später erneut!"));
+                    }
+                    //DbException, Basisklasse der Datenbank-Exception
+                } catch (DbException) {
+                    return View("_Message", new Message("Login", "Datenbankfehler!",
+                           "Bitte versuchen sie es später erneut!"));
+                } finally {
+                    _rep.Disconnect();
+                }
             }
-            return View(userData);
+            return View(username, password);
         }
-        [HttpGet]
-        public IActionResult Login() {
-            return View();
-        }
+    }
 
-        private void ValidateLoginData(user u) {
-            if (u == null) {
-                return;
-            }
-            if (u.email == null) {
-                ModelState.AddModelError("email", "Bitte tragen sie eine Email-Addresse ein!");
-            }
-            
-        }
+    [HttpGet]
+    public IActionResult Login() {
+        return View();
     }
 }    
