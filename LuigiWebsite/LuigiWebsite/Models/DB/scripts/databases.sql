@@ -21,3 +21,12 @@ insert into menu values(null, 8.90, "Pizza Rucola", "Tomaten, Mozarella, Rucola,
 insert into menu values(null, 10.90, "Pizza Vegetaria", "Tomaten, Mozarella, gegrilltes Gemüse, Champignons, Rucola, Knoblauch");
 insert into menu values(null, 11.90, "Pizza Calzone", "Tomaten, Mozarella, Schinken, Champignons, Salami");
 insert into menu values(null, 8.90, "Pizza Salami", "Tomaten, Mozarella, Salami");
+
+create table customer(
+	customerID int unsigned not null auto_increment primary key,
+	vorname varchar(150) not null, 
+	nachname varchar(150) not null, 
+	passwort password not null, 
+	geburtstag Date not null
+);
+

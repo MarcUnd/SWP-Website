@@ -6,6 +6,16 @@ using System.Threading.Tasks;
 namespace LuigiWebsite.Models {
     public class user {
 
+        private int _customerId;
+   
+        public int CustomerId {
+            get { return this._customerId; }
+            set {
+                if (value >= 1) {
+                    this._customerId = value;
+                }
+            }
+        }
         public string email { get; set; }
         public string vorname { get; set; }
         public string nachname { get; set; }

@@ -111,9 +111,6 @@ namespace LuigiWebsite.Controllers {
             if (u.email == null) {
                 ModelState.AddModelError("email", "Bitte tragen sie eine Email-Addresse ein!");
             }
-            if (u.password == null || u.password.Length < 8) {
-                ModelState.AddModelError("password", "Ihr Passwort muss mindesten acht Zeichen lang sein!");
-            }
         }
     }
 }    
