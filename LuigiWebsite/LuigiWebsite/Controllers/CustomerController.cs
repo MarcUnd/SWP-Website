@@ -101,19 +101,18 @@ namespace LuigiWebsite.Controllers {
                         return View("_Message", new Message("Login", "Sie haben sich erfolgreich eingelogt!"));
                     } else {
                         return View("_Message", new Message("Login", "Sie haben sich NICHT erfolgreich eingelogt!!",
-                            "Bitte versuchen sie es später erneut!"));
+                            "Bitte versuchen sie es spï¿½ter erneut!"));
                     }
                     //DbException, Basisklasse der Datenbank-Exception
                 } catch (DbException) {
                     return View("_Message", new Message("Login", "Datenbankfehler!",
-                           "Bitte versuchen sie es später erneut!"));
+                           "Bitte versuchen sie es spï¿½ter erneut!"));
                 } finally {
                     _rep.Disconnect();
                 }
             }
             return RedirectToAction("registration");
         }
-
         [HttpGet]
         public IActionResult Login() {
             return View();
