@@ -1,3 +1,4 @@
+/**
 drop database luigiswonderworld;
 create database luigiswonderworld collate utf8mb4_general_ci;
 

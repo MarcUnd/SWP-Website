@@ -92,11 +92,11 @@ namespace LuigiWebsite.Controllers {
         }
 
         [HttpPost]
-        public IActionResult Login(String username, String password) {
+        public IActionResult Login(String email, String password) {
             if (ModelState.IsValid) {
                 try {
                     _rep.Connect();
-                    if (_rep.isUser(username, password)) {
+                    if (_rep.isUser(email, password)) {
                         //MessageView aufrufen
                         return View("_Message", new Message("Login", "Sie haben sich erfolgreich eingelogt!"));
                     } else {
@@ -111,12 +111,12 @@ namespace LuigiWebsite.Controllers {
                     _rep.Disconnect();
                 }
             }
-            return View(username, password);
+            return RedirectToAction("registration");
         }
-    }
 
-    [HttpGet]
-    public IActionResult Login() {
-        return View();
-    }
+        [HttpGet]
+        public IActionResult Login() {
+            return View();
+        }
+    } 
 }    

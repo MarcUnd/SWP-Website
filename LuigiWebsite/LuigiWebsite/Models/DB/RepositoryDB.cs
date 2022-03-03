@@ -100,7 +100,7 @@ namespace LuigiWebsite.Models.DB {
         }
 
 
-        public bool isUser(user u) {
+        public bool isUser(string email, string password) {
             if (this._conn?.State == ConnectionState.Open) {
                 DbCommand cmdLogin = this._conn.CreateCommand();
                 cmdLogin.CommandText = "select * from customer where email = @email and passwort = sha2(@pwd,512);";
@@ -108,12 +108,12 @@ namespace LuigiWebsite.Models.DB {
                 DbParameter paramE = cmdLogin.CreateParameter();
                 paramE.ParameterName = "email";
                 paramE.DbType = DbType.String;
-                paramE.Value = u.email;
+                paramE.Value = email;
 
                 DbParameter paramP = cmdLogin.CreateParameter();
                 paramP.ParameterName = "pwd";
                 paramP.DbType = DbType.String;
-                paramP.Value = u.password;
+                paramP.Value = password;
 
                 cmdLogin.Parameters.Add(paramP);
                 cmdLogin.Parameters.Add(paramE);
