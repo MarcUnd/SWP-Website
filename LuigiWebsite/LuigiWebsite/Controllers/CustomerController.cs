@@ -1,13 +1,16 @@
 using LuigiWebsite.Models;
+using LuigiWebsite.Models.DB;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace LuigiWebsite.Controllers {
     public class CustomerController : Controller {
+        private IRepositoryDB _rep = new RepositoryDB();
 
         [HttpGet]
         public IActionResult Reservation() {
@@ -93,7 +96,16 @@ namespace LuigiWebsite.Controllers {
             if (userData == null) {
                 return RedirectToAction("Login");
             }
+            try {
+                _rep.Connect();
+                if(_rep.)
+            } catch (DbException) {
+                return View("_Message", new Message("Benutzer", "Datenbankfehler", "Bitte versuchen Sie es später erneut!"));
+            } finally {
+                _rep.Disconnect();
+            }
             ValidateLoginData(userData);
+            
             if (ModelState.IsValid) {
                 return RedirectToAction("index", "Home");
             }
@@ -111,6 +123,7 @@ namespace LuigiWebsite.Controllers {
             if (u.email == null) {
                 ModelState.AddModelError("email", "Bitte tragen sie eine Email-Addresse ein!");
             }
+            
         }
     }
 }    

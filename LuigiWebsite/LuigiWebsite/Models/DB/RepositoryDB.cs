@@ -55,6 +55,7 @@ namespace LuigiWebsite.Models.DB {
             return menu;
         }
 
+<<<<<<< Updated upstream
         public bool Insert(user u) {
             
             if(this._conn?.State == ConnectionState.Open) {
@@ -94,6 +95,31 @@ namespace LuigiWebsite.Models.DB {
                 cmdIns.Parameters.Add(paramNN);
 
                 return cmdIns.ExecuteNonQuery() == 1;
+=======
+        public bool isUser(user u) {
+            if (this._conn?.State == ConnectionState.Open) {
+                DbCommand cmdLogin = this._conn.CreateCommand();
+                cmdLogin.CommandText = "select * from customer where email = @email and passwort = sha2(@pwd,512);";
+
+                DbParameter paramE = cmdLogin.CreateParameter();
+                paramE.ParameterName = "email";
+                paramE.DbType = DbType.String;
+                paramE.Value = u.email;
+
+                DbParameter paramP = cmdLogin.CreateParameter();
+                paramP.ParameterName = "pwd";
+                paramP.DbType = DbType.String;
+                paramP.Value = u.password;
+
+                cmdLogin.Parameters.Add(paramP);
+                cmdLogin.Parameters.Add(paramE);
+
+                using(DbDataReader reader = cmdLogin.ExecuteReader()) {
+                    if (reader.Read()) {
+                        return true;
+                    }
+                }                       
+>>>>>>> Stashed changes
             }
             return false;
         }

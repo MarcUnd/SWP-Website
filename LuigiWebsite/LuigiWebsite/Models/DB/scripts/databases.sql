@@ -27,6 +27,7 @@ create table customer(
 	vorname varchar(150) not null, 
 	nachname varchar(150) not null, 
 	passwort password not null, 
-	geburtstag Date not null
+	geburtstag Date not null,
+	email varchar(150) not null
 );
 
