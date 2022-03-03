@@ -113,10 +113,9 @@ namespace LuigiWebsite.Controllers {
             }
             return View(username, password);
         }
-    }
-
-    [HttpGet]
-    public IActionResult Login() {
-        return View();
+        [HttpGet]
+        public IActionResult Login() {
+            return View();
+        }
     }
 }    
