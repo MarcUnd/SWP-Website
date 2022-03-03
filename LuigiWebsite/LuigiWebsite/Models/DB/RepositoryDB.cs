@@ -55,10 +55,10 @@ namespace LuigiWebsite.Models.DB {
             return menu;
         }
 
-<<<<<<< Updated upstream
+
         public bool Insert(user u) {
-            
-            if(this._conn?.State == ConnectionState.Open) {
+
+            if (this._conn?.State == ConnectionState.Open) {
                 DbCommand cmdIns = this._conn.CreateCommand();
 
                 cmdIns.CommandText = "insert into customer values(null, @vn, @nn, sha2(@pwd,512), @email, @bd);";
@@ -95,7 +95,11 @@ namespace LuigiWebsite.Models.DB {
                 cmdIns.Parameters.Add(paramNN);
 
                 return cmdIns.ExecuteNonQuery() == 1;
-=======
+            }
+            return false;
+        }
+
+
         public bool isUser(user u) {
             if (this._conn?.State == ConnectionState.Open) {
                 DbCommand cmdLogin = this._conn.CreateCommand();
@@ -119,7 +123,6 @@ namespace LuigiWebsite.Models.DB {
                         return true;
                     }
                 }                       
->>>>>>> Stashed changes
             }
             return false;
         }

@@ -1,25 +1,23 @@
-﻿@model LuigiWebsite.Models.user
+﻿
 @{
     ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
+<h3>Login</h3>
 
-<form asp-controller="customer" asp-action="login" method="post">
-    <div class="form-group w-50 mx-auto">
-        <label asp-for="email">Email</label>
-        <input type="email" class="form-control" placeholder="luigi.luigi@luigi.luigi" asp-for="email" required />
-        <span asp-validation-for="email"></span>
+<form asp-controller="user" asp-action="login" method="post">
+    <p>
+        <label for="email">Benutzername</label><br />
+        <input type="text" name="email" />
 
-    </div>
-    <div class="form-group w-50 mx-auto">
-        <label asp-for="password">Password</label>
-        <input type="password" class="form-control" placeholder="12345..." asp-for="password" required />
-        <span asp-validation-for="password"></span>
-    </div>
-    <div class="btn-group" style="float:right;">
-        <button type="submit" class="ml-5 btn btn-outline-success">Anmelden</button>
-        <a href="/customer/registration" class="mr-5 btn btn-outline-info">Registrieren</a>
-    </div>
+    </p>
+    <p>
+        <label for="password">Passwort</label><br />
+        <input type="password" name="password" />
+
+    </p>
+    <p>
+        <input type="submit" value="login" />
+        <input type="reset" value="abbrechen" />
+    </p>
 </form>
-

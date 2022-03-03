@@ -14,6 +14,6 @@ namespace LuigiWebsite.Models.DB {
 
         bool Insert(user u);
 
-        bool Login(string email, string password);
+        bool isUser(string email, string password);
     }
 }
