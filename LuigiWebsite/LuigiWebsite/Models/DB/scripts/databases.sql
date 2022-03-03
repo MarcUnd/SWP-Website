@@ -26,8 +26,9 @@ create table customer(
 	customerID int unsigned not null auto_increment primary key,
 	vorname varchar(150) not null, 
 	nachname varchar(150) not null, 
-	passwort password not null, 
+	passwort varchar(200) not null, 
 	geburtstag date not null,
 	email varchar(150) not null
 );
 
+insert into customer values(null, "pedda", "pedda", sha2("pedda",512), "pedda@pedda.pedda", "2004-12-23");
