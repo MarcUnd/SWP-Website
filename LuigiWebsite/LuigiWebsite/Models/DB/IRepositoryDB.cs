@@ -11,5 +11,9 @@ namespace LuigiWebsite.Models.DB {
         void Disconnect();
 
         List<MenuDB> getMenu();
+
+        bool Insert(user u);
+
+        bool Login(string email, string password);
     }
 }

@@ -54,5 +54,48 @@ namespace LuigiWebsite.Models.DB {
             }
             return menu;
         }
+
+        public bool Insert(user u) {
+            
+            if(this._conn?.State == ConnectionState.Open) {
+                DbCommand cmdIns = this._conn.CreateCommand();
+
+                cmdIns.CommandText = "insert into customer values(null, @vn, @nn, sha2(@pwd,512), @email, @bd);";
+
+                DbParameter paramVN = cmdIns.CreateParameter();
+                paramVN.ParameterName = "vn";
+                paramVN.DbType = DbType.String;
+                paramVN.Value = u.vorname;
+
+                DbParameter paramNN = cmdIns.CreateParameter();
+                paramNN.ParameterName = "nn";
+                paramNN.DbType = DbType.String;
+                paramNN.Value = u.nachname;
+
+                DbParameter paramPWD = cmdIns.CreateParameter();
+                paramPWD.ParameterName = "pwd";
+                paramPWD.DbType = DbType.String;
+                paramPWD.Value = u.password;
+
+                DbParameter paramEM = cmdIns.CreateParameter();
+                paramEM.ParameterName = "email";
+                paramEM.DbType = DbType.String;
+                paramEM.Value = u.email;
+
+                DbParameter paramBD = cmdIns.CreateParameter();
+                paramBD.ParameterName = "bd";
+                paramBD.DbType = DbType.DateTime;
+                paramBD.Value = u.BirthDate;
+
+                cmdIns.Parameters.Add(paramVN);
+                cmdIns.Parameters.Add(paramPWD);
+                cmdIns.Parameters.Add(paramBD);
+                cmdIns.Parameters.Add(paramEM);
+                cmdIns.Parameters.Add(paramNN);
+
+                return cmdIns.ExecuteNonQuery() == 1;
+            }
+            return false;
+        }
     }
 }
