@@ -53,12 +53,23 @@ namespace LuigiWebsite.Controllers {
 
         [HttpPost]
         public IActionResult Registration(user userData) {
-            if (userData == null) {
-                return RedirectToAction("Registration");
-            }
-            ValidateRegistrationData(userData);
             if (ModelState.IsValid) {
-                return RedirectToAction("Login");
+                try {
+                    _rep.Connect();
+                    if (_rep.Insert(userData)) {
+                        //MessageView aufrufen
+                        return View("_Message", new Message("Registration", "Sie haben sich erfolgreich registriert!"));
+                    } else {
+                        return View("_Message", new Message("Registration", "Sie haben sich NICHT erfolgreich registriert!!",
+                            "Bitte versuchen sie es spaeter erneut!"));
+                    }
+                    //DbException, Basisklasse der Datenbank-Exception
+                } catch (DbException) {
+                    return View("_Message", new Message("Registration", "Datenbankfehler!",
+                           "Bitte versuchen sie es spaeter erneut!"));
+                } finally {
+                    _rep.Disconnect();
+                }
             }
             return View(userData);
         }

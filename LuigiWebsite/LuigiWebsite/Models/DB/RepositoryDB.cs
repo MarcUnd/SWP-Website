@@ -61,7 +61,7 @@ namespace LuigiWebsite.Models.DB {
             if (this._conn?.State == ConnectionState.Open) {
                 DbCommand cmdIns = this._conn.CreateCommand();
 
-                cmdIns.CommandText = "insert into customer values(null, @vn, @nn, sha2(@pwd,512), @email, @bd);";
+                cmdIns.CommandText = "insert into customer values(null, @vn, @nn, sha2(@pwd,512), @bd, @email);";
 
                 DbParameter paramVN = cmdIns.CreateParameter();
                 paramVN.ParameterName = "vn";
