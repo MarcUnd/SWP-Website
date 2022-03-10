@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace LuigiWebsite.Controllers {
         //hello
     public class HomeController : Controller {
-        public IActionResult Index() {
+        public IActionResult Index() 
             return View();
         }
 

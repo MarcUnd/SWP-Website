@@ -104,11 +104,12 @@ namespace LuigiWebsite.Controllers {
 
         [HttpPost]
         public IActionResult Login(String email, String password) {
+            @ViewData["logedIn"] = "logout";
             if (ModelState.IsValid) {
                 try {
                     _rep.Connect();
                     if (_rep.isUser(email, password)) {
-                        //MessageView aufrufen
+                        
                         return View("_Message", new Message("Login", "Sie haben sich erfolgreich eingelogt!"));
                     } else {
                         return View("_Message", new Message("Login", "Sie haben sich NICHT erfolgreich eingelogt!!",
