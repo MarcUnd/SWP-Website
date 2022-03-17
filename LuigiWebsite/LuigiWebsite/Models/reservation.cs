@@ -23,7 +23,5 @@ namespace LuigiWebsite.Models {
         public DateTime date { get; set; }
 
         public string uhrzeit { get; set; }
-
-        public string number { get; set; }
     }
 }
