@@ -1,5 +1,6 @@
 using LuigiWebsite.Models;
 using LuigiWebsite.Models.DB;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -104,12 +105,11 @@ namespace LuigiWebsite.Controllers {
 
         [HttpPost]
         public IActionResult Login(String email, String password) {
-            @ViewData["logedIn"] = "logout";
             if (ModelState.IsValid) {
                 try {
                     _rep.Connect();
                     if (_rep.isUser(email, password)) {
-                        
+                        HttpContext.Session.SetInt32("login",1);
                         return View("_Message", new Message("Login", "Sie haben sich erfolgreich eingelogt!"));
                     } else {
                         return View("_Message", new Message("Login", "Sie haben sich NICHT erfolgreich eingelogt!!",
@@ -128,6 +128,13 @@ namespace LuigiWebsite.Controllers {
         [HttpGet]
         public IActionResult Login() {
             return View();
+        }
+
+
+        [HttpGet]
+        public IActionResult Logout() {
+            HttpContext.Session.SetInt32("login", 0);
+            return View("_Message", new Message("Logout", "Sie haben sich erflogreich abgemeldet!"));  
         }
     } 
 }    
