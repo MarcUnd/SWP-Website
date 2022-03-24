@@ -138,25 +138,25 @@ namespace LuigiWebsite.Models.DB {
                 paramNN.DbType = DbType.String;
                 paramNN.Value = r.nachname;
 
-                DbParameter paramUH = cmdRes.CreateParameter();
-                paramUH.ParameterName = "uhr";
-                paramUH.DbType = DbType.String;
-                paramUH.Value = r.uhrzeit;
-
                 DbParameter paramEM = cmdRes.CreateParameter();
                 paramEM.ParameterName = "email";
                 paramEM.DbType = DbType.String;
                 paramEM.Value = r.email;
 
+                DbParameter paramUH = cmdRes.CreateParameter();
+                paramUH.ParameterName = "uhr";
+                paramUH.DbType = DbType.String;
+                paramUH.Value = r.uhrzeit;
+
                 DbParameter paramBD = cmdRes.CreateParameter();
-                paramBD.ParameterName = "bd";
-                paramBD.DbType = DbType.DateTime;
+                paramBD.ParameterName = "dat";
+                paramBD.DbType = DbType.Date;
                 paramBD.Value = r.date;
 
+                cmdRes.Parameters.Add(paramNN);
+                cmdRes.Parameters.Add(paramEM);
                 cmdRes.Parameters.Add(paramUH);
                 cmdRes.Parameters.Add(paramBD);
-                cmdRes.Parameters.Add(paramEM);
-                cmdRes.Parameters.Add(paramNN);
 
                 return cmdRes.ExecuteNonQuery() == 1;
             }

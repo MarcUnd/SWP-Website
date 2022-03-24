@@ -31,9 +31,9 @@ namespace LuigiWebsite.Controllers {
                             "Bitte versuchen sie es sp�ter erneut!"));
                     }
                     //DbException, Basisklasse der Datenbank-Exception
-                } catch (DbException) {
+                }catch (DbException) {
                     return View("_Message", new Message("Reservierung", "Datenbankfehler!",
-                           "Bitte versuchen sie es sp�ter erneut!"));
+                           "Versuchen Sie es spaeter erneut!"));
                 } finally {
                     _rep.Disconnect();
                 }
