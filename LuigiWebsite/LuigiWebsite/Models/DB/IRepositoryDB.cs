@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 namespace LuigiWebsite.Models.DB {
     interface IRepositoryDB {
 
-        void Connect();
+        Task ConnectAsync();
+        Task Disconnect();
 
-        void Disconnect();
+        Task<List<MenuDB>> GetMenuAsync();
 
-        List<MenuDB> getMenu();
+        Task<bool> InsertAsync(user u);
 
-        bool Insert(user u);
-
-        bool isUser(string email, string password);
+        Task<bool> isUserAsync(string email, string password);
     }
 }

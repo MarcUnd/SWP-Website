@@ -53,13 +53,13 @@ namespace LuigiWebsite.Controllers {
         }
 
         [HttpPost]
-        public IActionResult Registration(user userData) {
+        public async Task<IActionResult> Registration(user userData) {
             if (ModelState.IsValid) {
                 try {
-                    _rep.Connect();
-                    if (_rep.Insert(userData)) {
+                    await _rep.ConnectAsync();
+                    if (await _rep.InsertAsync(userData)) {
                         //MessageView aufrufen
-                        return View("_Message", new Message("Registration", "Sie haben sich erfolgreich registriert!"));
+                        return RedirectToAction("Login");
                     } else {
                         return View("_Message", new Message("Registration", "Sie haben sich NICHT erfolgreich registriert!!",
                             "Bitte versuchen sie es spaeter erneut!"));
@@ -69,7 +69,7 @@ namespace LuigiWebsite.Controllers {
                     return View("_Message", new Message("Registration", "Datenbankfehler!",
                            "Bitte versuchen sie es spaeter erneut!"));
                 } finally {
-                    _rep.Disconnect();
+                    await _rep.Disconnect();
                 }
             }
             return View(userData);
@@ -104,13 +104,13 @@ namespace LuigiWebsite.Controllers {
         }
 
         [HttpPost]
-        public IActionResult Login(String email, String password) {
+        public async Task<IActionResult> Login(String email, String password) {
             if (ModelState.IsValid) {
                 try {
-                    _rep.Connect();
-                    if (_rep.isUser(email, password)) {
+                    await _rep.ConnectAsync();
+                    if (await _rep.isUserAsync(email, password)) {
                         HttpContext.Session.SetInt32("login",1);
-                        return View("_Message", new Message("Login", "Sie haben sich erfolgreich eingelogt!"));
+                        return RedirectToPage("");
                     } else {
                         return View("_Message", new Message("Login", "Sie haben sich NICHT erfolgreich eingelogt!!",
                             "Bitte versuchen sie es sp�ter erneut!"));
@@ -120,7 +120,7 @@ namespace LuigiWebsite.Controllers {
                     return View("_Message", new Message("Login", "Datenbankfehler!",
                            "Bitte versuchen sie es sp�ter erneut!"));
                 } finally {
-                    _rep.Disconnect();
+                    await _rep.Disconnect();
                 }
             }
             return RedirectToAction("registration");

@@ -7,32 +7,39 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace LuigiWebsite.Models.DB {
+
+    //parallele und asynchrone Programmierung 
+    //Threads sollten in C# nicht direkt verwendet werden (Sie werden allerdings immer intern verwendet) 
+    //Tasks sollten statt Threads verwendet werden 
+    //async/wait: verwendet im Hintergrund Task's 
+    //ermöglicht, dass die asynchrone und synchrone Porgrammierung fasst identisch ist 
+
     public class RepositoryDB : IRepositoryDB {
 
         private string _connectionString = "Server=localhost;database=luigiswonderworld;user=root;password=";
         //Verbindungsobjekt zum Zugriff auf die Datenbank, hiermit können SQL Befehle an den DB-Server gesendet werden
         private DbConnection _conn;
 
-        public void Connect() {
+        public async Task ConnectAsync() {
             if (this._conn == null) {
                 //falls Verbindung noch nicht erzeugt, wird sie hier erstellt
                 this._conn = new MySqlConnection(this._connectionString);
             }
             if (this._conn.State != ConnectionState.Open) {
                 //falls Verbundung noch nicht hergesetellt, wird sie hier hergestellt
-                this._conn.Open();
+                await this._conn.OpenAsync();
             }
         }
 
-        public void Disconnect() {
+        public async Task Disconnect() {
             //falls das Verbindungsobjekt exisiert und die Verbindung offen ist
             if ((this._conn != null) && (this._conn.State == ConnectionState.Open)) {
                 //Verbindung wird geschlossen
-                this._conn.Close();
+                await this._conn.CloseAsync();
             }
         }
 
-        public List<MenuDB> getMenu() {
+        public async Task<List<MenuDB>> GetMenuAsync() {
 
             List<MenuDB> menu = new List<MenuDB>();
 
@@ -41,8 +48,8 @@ namespace LuigiWebsite.Models.DB {
             
                 cmdMenu.CommandText = "select * from menu;";
 
-                using(DbDataReader reader = cmdMenu.ExecuteReader()) {
-                    while (reader.Read()) {
+                using(DbDataReader reader = await cmdMenu.ExecuteReaderAsync()) {
+                    while (await reader.ReadAsync()) {
                         menu.Add(new MenuDB {
                             MenuId = Convert.ToInt32(reader["menuid"]),
                             Preis = Convert.ToDecimal(reader["preis"]),
@@ -56,7 +63,7 @@ namespace LuigiWebsite.Models.DB {
         }
 
 
-        public bool Insert(user u) {
+        public async Task<bool> InsertAsync(user u) {
 
             if (this._conn?.State == ConnectionState.Open) {
                 DbCommand cmdIns = this._conn.CreateCommand();
@@ -94,13 +101,13 @@ namespace LuigiWebsite.Models.DB {
                 cmdIns.Parameters.Add(paramEM);
                 cmdIns.Parameters.Add(paramNN);
 
-                return cmdIns.ExecuteNonQuery() == 1;
+                return await cmdIns.ExecuteNonQueryAsync() == 1;
             }
             return false;
         }
 
 
-        public bool isUser(string email, string password) {
+        public  async Task<bool> isUserAsync(string email, string password) {
             if (this._conn?.State == ConnectionState.Open) {
                 DbCommand cmdLogin = this._conn.CreateCommand();
                 cmdLogin.CommandText = "select * from customer where email = @email and passwort = sha2(@pwd,512);";
@@ -118,8 +125,8 @@ namespace LuigiWebsite.Models.DB {
                 cmdLogin.Parameters.Add(paramP);
                 cmdLogin.Parameters.Add(paramE);
 
-                using(DbDataReader reader = cmdLogin.ExecuteReader()) {
-                    if (reader.Read()) {
+                using(DbDataReader reader = await cmdLogin.ExecuteReaderAsync()) {
+                    if (await reader.ReadAsync()) {
                         return true;
                     }
                 }                       
