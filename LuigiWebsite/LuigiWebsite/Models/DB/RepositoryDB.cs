@@ -133,5 +133,41 @@ namespace LuigiWebsite.Models.DB {
             }
             return false;
         }
+
+        public bool InsertRes(reservation r) {
+            if (this._conn?.State == ConnectionState.Open) {
+                DbCommand cmdRes = this._conn.CreateCommand();
+
+                cmdRes.CommandText = "insert into reservation values(null, @nn, @email, @uhr, @dat);";
+
+                DbParameter paramNN = cmdRes.CreateParameter();
+                paramNN.ParameterName = "nn";
+                paramNN.DbType = DbType.String;
+                paramNN.Value = r.nachname;
+
+                DbParameter paramEM = cmdRes.CreateParameter();
+                paramEM.ParameterName = "email";
+                paramEM.DbType = DbType.String;
+                paramEM.Value = r.email;
+
+                DbParameter paramUH = cmdRes.CreateParameter();
+                paramUH.ParameterName = "uhr";
+                paramUH.DbType = DbType.String;
+                paramUH.Value = r.uhrzeit;
+
+                DbParameter paramBD = cmdRes.CreateParameter();
+                paramBD.ParameterName = "dat";
+                paramBD.DbType = DbType.Date;
+                paramBD.Value = r.date;
+
+                cmdRes.Parameters.Add(paramNN);
+                cmdRes.Parameters.Add(paramEM);
+                cmdRes.Parameters.Add(paramUH);
+                cmdRes.Parameters.Add(paramBD);
+
+                return cmdRes.ExecuteNonQuery() == 1;
+            }
+            return false;
+        }
     }
 }

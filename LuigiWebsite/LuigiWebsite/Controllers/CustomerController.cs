@@ -20,15 +20,26 @@ namespace LuigiWebsite.Controllers {
 
         [HttpPost]
         public IActionResult Reservation(reservation reservationData) {
-            if (reservationData == null) {
-                return RedirectToAction("reservation");
-            }
-            ValidateReservationData(reservationData);
             if (ModelState.IsValid) {
-                return RedirectToAction("index", "Home");
+                try {
+                    _rep.Connect();
+                    if (_rep.InsertRes(reservationData)) {
+                        //MessageView aufrufen
+                        return View("_Message", new Message("Reservierung", "Sie haben erfolgreich reserviert!"));
+                    } else {
+                        return View("_Message", new Message("Reservierung", "Sie haben NICHT erfolgreich reserviert!!",
+                            "Bitte versuchen sie es sp�ter erneut!"));
+                    }
+                    //DbException, Basisklasse der Datenbank-Exception
+                }catch (DbException) {
+                    return View("_Message", new Message("Reservierung", "Datenbankfehler!",
+                           "Versuchen Sie es spaeter erneut!"));
+                } finally {
+                    _rep.Disconnect();
+                }
             }
-            return View(reservationData);
-        }
+            return RedirectToAction("reservation");
+    }
 
         private void ValidateReservationData(reservation r) {
             if (r == null) {
@@ -39,9 +50,6 @@ namespace LuigiWebsite.Controllers {
             }
             if (r.email == null) {
                 ModelState.AddModelError("email", "Bitte tragen sie einen Emailaddresse ein!");
-            }
-            if (r.number == null) {
-                ModelState.AddModelError("number", "Bitte tragen sie eine richtige Telefonnummer ein!");
             }
             if (r.date < DateTime.Now.AddDays(-1)) {
                 ModelState.AddModelError("date", "Das Datum kann nicht in der Vergangenheit liegen!");

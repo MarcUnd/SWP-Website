@@ -33,3 +33,13 @@ create table customer(
 );
 
 insert into customer values(null, "pedda", "pedda", sha2("pedda",512), "pedda@pedda.pedda", "2004-12-23");
+
+create table reservation(
+	resID int unsigned not null auto_increment primary key,
+	nachname varchar(150) not null,
+	email varchar(200) not null,
+	uhrzeit varchar(100) not null,
+	datum date not null
+	);
+
+insert into reservation values(null, "pedda","this@pedda.at", "06505201956", "00:00:00", "2022-03-11");
