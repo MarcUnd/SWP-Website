@@ -31,7 +31,7 @@ namespace LuigiWebsite.Models.DB {
             }
         }
 
-        public async Task Disconnect() {
+        public async Task DisconnectAsync() {
             //falls das Verbindungsobjekt exisiert und die Verbindung offen ist
             if ((this._conn != null) && (this._conn.State == ConnectionState.Open)) {
                 //Verbindung wird geschlossen
@@ -134,7 +134,7 @@ namespace LuigiWebsite.Models.DB {
             return false;
         }
 
-        public bool InsertRes(reservation r) {
+        public async Task<bool> InsertResAsync(reservation r) {
             if (this._conn?.State == ConnectionState.Open) {
                 DbCommand cmdRes = this._conn.CreateCommand();
 
@@ -165,7 +165,7 @@ namespace LuigiWebsite.Models.DB {
                 cmdRes.Parameters.Add(paramUH);
                 cmdRes.Parameters.Add(paramBD);
 
-                return cmdRes.ExecuteNonQuery() == 1;
+                return await cmdRes.ExecuteNonQueryAsync() == 1;
             }
             return false;
         }

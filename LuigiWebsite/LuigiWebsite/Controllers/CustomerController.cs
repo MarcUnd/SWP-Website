@@ -19,11 +19,11 @@ namespace LuigiWebsite.Controllers {
         }
 
         [HttpPost]
-        public IActionResult Reservation(reservation reservationData) {
+        public async Task<IActionResult> Reservation(reservation reservationData) {
             if (ModelState.IsValid) {
                 try {
-                    _rep.Connect();
-                    if (_rep.InsertRes(reservationData)) {
+                    await _rep.ConnectAsync();
+                    if (await _rep.InsertResAsync(reservationData)) {
                         //MessageView aufrufen
                         return View("_Message", new Message("Reservierung", "Sie haben erfolgreich reserviert!"));
                     } else {
@@ -35,7 +35,7 @@ namespace LuigiWebsite.Controllers {
                     return View("_Message", new Message("Reservierung", "Datenbankfehler!",
                            "Versuchen Sie es spaeter erneut!"));
                 } finally {
-                    _rep.Disconnect();
+                    await _rep.DisconnectAsync();
                 }
             }
             return RedirectToAction("reservation");
@@ -77,7 +77,7 @@ namespace LuigiWebsite.Controllers {
                     return View("_Message", new Message("Registration", "Datenbankfehler!",
                            "Bitte versuchen sie es spaeter erneut!"));
                 } finally {
-                    await _rep.Disconnect();
+                    await _rep.DisconnectAsync();
                 }
             }
             return View(userData);
@@ -118,17 +118,17 @@ namespace LuigiWebsite.Controllers {
                     await _rep.ConnectAsync();
                     if (await _rep.isUserAsync(email, password)) {
                         HttpContext.Session.SetInt32("login",1);
-                        return RedirectToPage("");
+                        return RedirectToAction("index", "home");
                     } else {
                         return View("_Message", new Message("Login", "Sie haben sich NICHT erfolgreich eingelogt!!",
-                            "Bitte versuchen sie es sp�ter erneut!"));
+                            "Bitte versuchen sie es spaeter erneut!"));
                     }
                     //DbException, Basisklasse der Datenbank-Exception
                 } catch (DbException) {
                     return View("_Message", new Message("Login", "Datenbankfehler!",
-                           "Bitte versuchen sie es sp�ter erneut!"));
+                           "Bitte versuchen sie es spaeter erneut!"));
                 } finally {
-                    await _rep.Disconnect();
+                    await _rep.DisconnectAsync();
                 }
             }
             return RedirectToAction("registration");

@@ -18,7 +18,7 @@ namespace LuigiWebsite.Controllers {
             } catch (DbException) {
                 return View("_Message", new Message("Benutzer", "Datenbankfehler", "Bitte versuchen Sie es später erneut!"));
             } finally {
-                await _rep.Disconnect();
+                await _rep.DisconnectAsync();
             }
         }
     }

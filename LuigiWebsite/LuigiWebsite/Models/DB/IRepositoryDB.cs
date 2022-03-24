@@ -7,12 +7,14 @@ namespace LuigiWebsite.Models.DB {
     interface IRepositoryDB {
 
         Task ConnectAsync();
-        Task Disconnect();
+        Task DisconnectAsync();
 
         Task<List<MenuDB>> GetMenuAsync();
 
         Task<bool> InsertAsync(user u);
 
         Task<bool> isUserAsync(string email, string password);
+
+        Task<bool> InsertResAsync(reservation r);
     }
 }
