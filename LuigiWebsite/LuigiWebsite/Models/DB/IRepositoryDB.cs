@@ -17,5 +17,7 @@ namespace LuigiWebsite.Models.DB {
         bool isUser(string email, string password);
 
         bool InsertRes(reservation r);
+
+        String getEmailById(int id);
     }
 }

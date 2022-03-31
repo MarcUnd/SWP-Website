@@ -67,7 +67,7 @@ namespace LuigiWebsite.Controllers {
                     _rep.Connect();
                     if (_rep.Insert(userData)) {
                         //MessageView aufrufen
-                        return View("_Message", new Message("Registration", "Sie haben sich erfolgreich registriert!"));
+                        return View("login");
                     } else {
                         return View("_Message", new Message("Registration", "Sie haben sich NICHT erfolgreich registriert!!",
                             "Bitte versuchen sie es spaeter erneut!"));
@@ -136,6 +136,18 @@ namespace LuigiWebsite.Controllers {
         [HttpGet]
         public IActionResult Login() {
             return View();
+        }
+
+        public IActionResult Login(int id) {
+            try {
+                _rep.Connect();
+                String email = _rep.getEmailById(id);
+                return View(email);
+            } catch (DbException) {
+                return View("_Message", new Message("Delete", "Datenbankfehler", "Bitte versuchen Sie es später erneut!"));
+            } finally {
+                _rep.Disconnect();
+            }
         }
 
 

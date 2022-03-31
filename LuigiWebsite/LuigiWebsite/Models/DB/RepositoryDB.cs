@@ -36,12 +36,12 @@ namespace LuigiWebsite.Models.DB {
 
             List<MenuDB> menu = new List<MenuDB>();
 
-            if(this._conn?.State == ConnectionState.Open) {
+            if (this._conn?.State == ConnectionState.Open) {
                 DbCommand cmdMenu = this._conn.CreateCommand();
-            
+
                 cmdMenu.CommandText = "select * from menu;";
 
-                using(DbDataReader reader = cmdMenu.ExecuteReader()) {
+                using (DbDataReader reader = cmdMenu.ExecuteReader()) {
                     while (reader.Read()) {
                         menu.Add(new MenuDB {
                             MenuId = Convert.ToInt32(reader["menuid"]),
@@ -118,11 +118,11 @@ namespace LuigiWebsite.Models.DB {
                 cmdLogin.Parameters.Add(paramP);
                 cmdLogin.Parameters.Add(paramE);
 
-                using(DbDataReader reader = cmdLogin.ExecuteReader()) {
+                using (DbDataReader reader = cmdLogin.ExecuteReader()) {
                     if (reader.Read()) {
                         return true;
                     }
-                }                       
+                }
             }
             return false;
         }
@@ -161,6 +161,32 @@ namespace LuigiWebsite.Models.DB {
                 return cmdRes.ExecuteNonQuery() == 1;
             }
             return false;
+        }
+
+        public String getEmailById(int id) {
+            String email = "";
+
+            if (this._conn?.State == ConnectionState.Open) {
+
+                DbCommand cmdUser = this._conn.CreateCommand();
+
+                cmdUser.CommandText = "select email from customer where customerID = @id;";
+
+                DbParameter paramId = cmdUser.CreateParameter();
+                paramId.ParameterName = "id";
+                paramId.DbType = DbType.Int32;
+                paramId.Value = id;
+
+                cmdUser.Parameters.Add(paramId);
+                using (DbDataReader reader = cmdUser.ExecuteReader()) {
+                    //Eine Zeile Datensatz lesen
+                    if (reader.Read()) {
+                        email = Convert.ToString(reader["email"]);
+                    }
+                }
+                
+            }
+            return email;
         }
     }
 }
