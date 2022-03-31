@@ -23,6 +23,11 @@ namespace LuigiWebsite.Controllers {
             if (ModelState.IsValid) {
                 try {
                     await _rep.ConnectAsync();
+
+                    DateTime dat = reservationData.date.Date.Add(reservationData.uhrzeit.TimeOfDay);
+                    if(await _rep.ResValidAsync(dat)) {
+                        return View(reservationData);
+                        //return View("_Message", new Message("Reservierung", "Zu dieser Zeit ist keine Reservierung verfügbar!")); }
                     if (await _rep.InsertResAsync(reservationData)) {
                         //MessageView aufrufen
                         return View("_Message", new Message("Reservierung", "Sie haben erfolgreich reserviert!"));
@@ -53,10 +58,6 @@ namespace LuigiWebsite.Controllers {
             }
             if (r.date < DateTime.Now.AddDays(-1)) {
                 ModelState.AddModelError("date", "Das Datum kann nicht in der Vergangenheit liegen!");
-            }
-            if (r.uhrzeit == null) {
-                ModelState.AddModelError("uhrzeit", "Bitte tragen sei eine Uhrzeit ein!");
-
             }
         }
 
@@ -140,13 +141,13 @@ namespace LuigiWebsite.Controllers {
 
         public IActionResult Login(int id) {
             try {
-                _rep.Connect();
+                _rep.ConnectAsync();
                 String email = _rep.getEmailById(id);
                 return View(email);
             } catch (DbException) {
                 return View("_Message", new Message("Delete", "Datenbankfehler", "Bitte versuchen Sie es später erneut!"));
             } finally {
-                _rep.Disconnect();
+                _rep.DisconnectAsync();
             }
         }
 

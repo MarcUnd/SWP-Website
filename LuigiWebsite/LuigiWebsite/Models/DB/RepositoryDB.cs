@@ -133,18 +133,32 @@ namespace LuigiWebsite.Models.DB {
             }
             return false;
         }
-        public async Task<bool> ResValid(DateTime date) {
+        public async Task<bool> ResValidAsync(DateTime date) {
             if (this._conn?.State == ConnectionState.Open) {
                 DbCommand cmdResValid = this._conn.CreateCommand();
                 cmdResValid.CommandText = "select count(*) from reservation where Uhrzeit between @time1 and @time2 and datum = @dat;";
 
-                DbParameter paramD = cmdResValid.CreateParameter();
-                paramD.ParameterName = "email";
-                paramD.DbType = DbType.DateTime;
-                paramD.Value = date;
+                DateTime date2 = date.AddHours(-1);
+                date = date.AddHours(1);
 
+                DbParameter paramTStart = cmdResValid.CreateParameter();
+                paramTStart.ParameterName = "time1";
+                paramTStart.DbType = DbType.Time;
+                paramTStart.Value = date2.TimeOfDay;
 
+                DbParameter paramTEnd = cmdResValid.CreateParameter();
+                paramTEnd.ParameterName = "time2";
+                paramTEnd.DbType = DbType.Time;
+                paramTEnd.Value = date.TimeOfDay;
 
+                DbParameter paramDate = cmdResValid.CreateParameter();
+                paramDate.ParameterName = "dat";
+                paramDate.DbType = DbType.Date;
+                paramDate.Value = date.Date;
+
+                cmdResValid.Parameters.Add(paramTStart);
+                cmdResValid.Parameters.Add(paramTEnd);
+                cmdResValid.Parameters.Add(paramDate);
                 using (DbDataReader reader = await cmdResValid.ExecuteReaderAsync()) {
                     if (await reader.ReadAsync()) {
                         return true;
@@ -172,8 +186,8 @@ namespace LuigiWebsite.Models.DB {
 
                 DbParameter paramUH = cmdRes.CreateParameter();
                 paramUH.ParameterName = "uhr";
-                paramUH.DbType = DbType.String;
-                paramUH.Value = r.uhrzeit;
+                paramUH.DbType = DbType.Time;
+                paramUH.Value = r.uhrzeit.TimeOfDay;
 
                 DbParameter paramBD = cmdRes.CreateParameter();
                 paramBD.ParameterName = "dat";
