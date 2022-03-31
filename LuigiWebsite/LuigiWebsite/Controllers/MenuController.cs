@@ -11,14 +11,14 @@ namespace LuigiWebsite.Controllers {
     public class MenuController : Controller {
 
         private IRepositoryDB _rep = new RepositoryDB();
-        public IActionResult Menu() {
+        public async Task<IActionResult> Menu() {
             try {
-                _rep.Connect();
-                return View(_rep.getMenu());
+                await _rep.ConnectAsync();
+                return View(await _rep.GetMenuAsync());
             } catch (DbException) {
                 return View("_Message", new Message("Benutzer", "Datenbankfehler", "Bitte versuchen Sie es später erneut!"));
             } finally {
-                _rep.Disconnect();
+                await _rep.DisconnectAsync();
             }
         }
     }
