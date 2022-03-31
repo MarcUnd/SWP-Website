@@ -14,8 +14,6 @@ namespace LuigiWebsite.Models.DB {
         Task<bool> InsertAsync(user u);
 
         Task<bool> isUserAsync(string email, string password);
-        Task<bool> ResValidAsync(DateTime date);
-        String getEmailById(int id);
         Task<bool> InsertResAsync(reservation r);
     }
 }

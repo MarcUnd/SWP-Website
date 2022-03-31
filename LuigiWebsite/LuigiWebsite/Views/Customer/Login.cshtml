@@ -1,4 +1,4 @@
-﻿
+﻿@model LuigiWebsite.Models.user 
 
 @{
     ViewData["Title"] = "Login";
@@ -8,14 +8,14 @@
 
 <form asp-controller="customer" asp-action="login" method="post">
     <div class="form-group w-50 mx-auto">
-        <label for="email">Email</label>
-        <input type="text" name="email" class="form-control" placeholder="luigi.luigi@luigi.luigi" required />
+        <label asp-for="email">Email</label>
+        <input asp-for="email" type="email" name="email" class="form-control" placeholder="luigi.luigi@luigi.luigi" required />
 
 
     </div>
     <div class="form-group w-50 mx-auto">
-        <label for="password">Password</label>
-        <input type="password" name="password" class="form-control" placeholder="12345..." required />
+        <label asp-for="password">Password</label>
+        <input asp-for="password" type="password" name="password" class="form-control" placeholder="12345..." required />
 
     </div>
     <div class="btn-group" style="float:right;">

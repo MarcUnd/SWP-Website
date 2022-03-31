@@ -68,7 +68,7 @@ namespace LuigiWebsite.Controllers {
                     await _rep.ConnectAsync();
                     if (await _rep.InsertAsync(userData)) {
                         //MessageView aufrufen
-                        return RedirectToAction("Login");
+                        return RedirectToAction("Login", userData);
                     } else {
                         return View("_Message", new Message("Registration", "Sie haben sich NICHT erfolgreich registriert!!",
                             "Bitte versuchen sie es spaeter erneut!"));
@@ -134,21 +134,12 @@ namespace LuigiWebsite.Controllers {
             }
             return RedirectToAction("registration");
         }
-        [HttpGet]
-        public IActionResult Login() {
-            return View();
-        }
+        
 
-        public IActionResult Login(int id) {
-            try {
-                _rep.ConnectAsync();
-                String email = _rep.getEmailById(id);
-                return View(email);
-            } catch (DbException) {
-                return View("_Message", new Message("Delete", "Datenbankfehler", "Bitte versuchen Sie es später erneut!"));
-            } finally {
-                _rep.DisconnectAsync();
-            }
+        [HttpGet]
+        public IActionResult Login(user userData) {
+            user userEmail = new user(userData.email);
+            return View(userEmail);
         }
 
 

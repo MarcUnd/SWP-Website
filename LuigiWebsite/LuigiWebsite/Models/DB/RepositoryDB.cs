@@ -203,31 +203,5 @@ namespace LuigiWebsite.Models.DB {
             }
             return false;
         }
-
-        public String getEmailById(int id) {
-            String email = "";
-
-            if (this._conn?.State == ConnectionState.Open) {
-
-                DbCommand cmdUser = this._conn.CreateCommand();
-
-                cmdUser.CommandText = "select email from customer where customerID = @id;";
-
-                DbParameter paramId = cmdUser.CreateParameter();
-                paramId.ParameterName = "id";
-                paramId.DbType = DbType.Int32;
-                paramId.Value = id;
-
-                cmdUser.Parameters.Add(paramId);
-                using (DbDataReader reader = cmdUser.ExecuteReader()) {
-                    //Eine Zeile Datensatz lesen
-                    if (reader.Read()) {
-                        email = Convert.ToString(reader["email"]);
-                    }
-                }
-                
-            }
-            return email;
-        }
     }
 }
