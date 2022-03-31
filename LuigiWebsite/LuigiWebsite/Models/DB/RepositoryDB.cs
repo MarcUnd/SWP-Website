@@ -133,6 +133,26 @@ namespace LuigiWebsite.Models.DB {
             }
             return false;
         }
+        public async Task<bool> ResValid(DateTime date) {
+            if (this._conn?.State == ConnectionState.Open) {
+                DbCommand cmdResValid = this._conn.CreateCommand();
+                cmdResValid.CommandText = "select count(*) from reservation where Uhrzeit between @time1 and @time2 and datum = @dat;";
+
+                DbParameter paramD = cmdResValid.CreateParameter();
+                paramD.ParameterName = "email";
+                paramD.DbType = DbType.DateTime;
+                paramD.Value = date;
+
+
+
+                using (DbDataReader reader = await cmdResValid.ExecuteReaderAsync()) {
+                    if (await reader.ReadAsync()) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
         public async Task<bool> InsertResAsync(reservation r) {
             if (this._conn?.State == ConnectionState.Open) {
