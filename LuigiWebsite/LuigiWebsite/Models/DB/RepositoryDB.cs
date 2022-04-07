@@ -152,18 +152,13 @@ namespace LuigiWebsite.Models.DB {
                 cmdResValid.Parameters.Add(paramTStart);
                 cmdResValid.Parameters.Add(paramTEnd);
                 cmdResValid.Parameters.Add(paramDate);
-                using (DbDataReader reader = await cmdResValid.ExecuteReaderAsync()) {
-                    int count = 1;
-                    while (await reader.ReadAsync()) {
-                        count++;
-                    }
-                    if(count >= 2) {
-                        return false;
-                    }
-                }
+
+
+                int count = Convert.ToInt32(await cmdResValid.ExecuteScalarAsync());
+                return count <2;
             }
-            return true; ;
-        }
+            return false;
+            }
 
         public async Task<bool> InsertResAsync(reservation r) {
             if (this._conn?.State == ConnectionState.Open) {

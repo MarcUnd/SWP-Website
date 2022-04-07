@@ -26,7 +26,7 @@ namespace LuigiWebsite.Controllers {
             if (ModelState.IsValid) {
                 try {
                     await _rep.ConnectAsync();
-
+                    
                     DateTime dat = reservationData.date.Date.Add(reservationData.uhrzeit.TimeOfDay);
                     if (await _rep.ResValidAsync(dat)) {
                         if (await _rep.InsertResAsync(reservationData)) {
