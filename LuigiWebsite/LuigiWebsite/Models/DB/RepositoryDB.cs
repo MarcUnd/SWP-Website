@@ -8,33 +8,26 @@ using System.Threading.Tasks;
 
 namespace LuigiWebsite.Models.DB {
 
-    //parallele und asynchrone Programmierung 
-    //Threads sollten in C# nicht direkt verwendet werden (Sie werden allerdings immer intern verwendet) 
-    //Tasks sollten statt Threads verwendet werden 
-    //async/wait: verwendet im Hintergrund Task's 
-    //ermöglicht, dass die asynchrone und synchrone Porgrammierung fasst identisch ist 
+
 
     public class RepositoryDB : IRepositoryDB {
 
         private string _connectionString = "Server=localhost;database=luigiswonderworld;user=root;password=";
-        //Verbindungsobjekt zum Zugriff auf die Datenbank, hiermit können SQL Befehle an den DB-Server gesendet werden
         private DbConnection _conn;
 
         public async Task ConnectAsync() {
             if (this._conn == null) {
-                //falls Verbindung noch nicht erzeugt, wird sie hier erstellt
                 this._conn = new MySqlConnection(this._connectionString);
             }
             if (this._conn.State != ConnectionState.Open) {
-                //falls Verbundung noch nicht hergesetellt, wird sie hier hergestellt
                 await this._conn.OpenAsync();
             }
         }
 
         public async Task DisconnectAsync() {
-            //falls das Verbindungsobjekt exisiert und die Verbindung offen ist
+            
             if ((this._conn != null) && (this._conn.State == ConnectionState.Open)) {
-                //Verbindung wird geschlossen
+                
                 await this._conn.CloseAsync();
             }
         }
@@ -160,12 +153,16 @@ namespace LuigiWebsite.Models.DB {
                 cmdResValid.Parameters.Add(paramTEnd);
                 cmdResValid.Parameters.Add(paramDate);
                 using (DbDataReader reader = await cmdResValid.ExecuteReaderAsync()) {
-                    if (await reader.ReadAsync()) {
-                        return true;
+                    int count = 1;
+                    while (await reader.ReadAsync()) {
+                        count++;
+                    }
+                    if(count >= 2) {
+                        return false;
                     }
                 }
             }
-            return false;
+            return true; ;
         }
 
         public async Task<bool> InsertResAsync(reservation r) {

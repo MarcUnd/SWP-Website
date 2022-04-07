@@ -20,31 +20,37 @@ namespace LuigiWebsite.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Reservation(reservation reservationData) {
+            if(reservationData == null) {
+                return View();
+            }
             if (ModelState.IsValid) {
                 try {
                     await _rep.ConnectAsync();
 
                     DateTime dat = reservationData.date.Date.Add(reservationData.uhrzeit.TimeOfDay);
-                    if(await _rep.ResValidAsync(dat)) {
-                        return View(reservationData);
-                        //return View("_Message", new Message("Reservierung", "Zu dieser Zeit ist keine Reservierung verfügbar!")); }
-                    if (await _rep.InsertResAsync(reservationData)) {
-                        //MessageView aufrufen
-                        return View("_Message", new Message("Reservierung", "Sie haben erfolgreich reserviert!"));
+                    if (await _rep.ResValidAsync(dat)) {
+                        if (await _rep.InsertResAsync(reservationData)) {
+                            return View("_Message", new Message("Reservierung", "Sie haben erfolgreich reserviert!"));
+                        } else {
+                            return View("_Message", new Message("Reservierung", "Sie haben NICHT reserviert!!", "versuchen sie es sp�ter erneut!"));
+                        }
                     } else {
-                        return View("_Message", new Message("Reservierung", "Sie haben NICHT erfolgreich reserviert!!",
-                            "Bitte versuchen sie es sp�ter erneut!"));
+                        //return View(reservationData);
+                        return View("_Message", new Message("Reservierung", "Zu dieser Zeit ist keine Reservierung verfügbar!"));
                     }
-                    //DbException, Basisklasse der Datenbank-Exception
-                }catch (DbException) {
-                    return View("_Message", new Message("Reservierung", "Datenbankfehler!",
-                           "Versuchen Sie es spaeter erneut!"));
-                } finally {
-                    await _rep.DisconnectAsync();
+
+
                 }
+                catch (DbException) {
+                return View("_Message", new Message("Reservierung", "Datenbankfehler!",
+                       "Versuchen Sie es spaeter erneut!"));
+            } finally {
+                await _rep.DisconnectAsync();
             }
+        }
             return RedirectToAction("reservation");
     }
+
 
         private void ValidateReservationData(reservation r) {
             if (r == null) {
@@ -67,7 +73,7 @@ namespace LuigiWebsite.Controllers {
                 try {
                     await _rep.ConnectAsync();
                     if (await _rep.InsertAsync(userData)) {
-                        //MessageView aufrufen
+                       
                         return RedirectToAction("Login", userData);
                     } else {
                         return View("_Message", new Message("Registration", "Sie haben sich NICHT erfolgreich registriert!!",
