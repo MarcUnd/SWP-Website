@@ -32,6 +32,29 @@ namespace LuigiWebsite.Models.DB {
             }
         }
 
+        public async Task<user> getUserByEmailAsync(string email) {
+            user u = null;
+
+            if (this._conn?.State == ConnectionState.Open) {
+                DbCommand cmdUser = this._conn.CreateCommand();
+
+                cmdUser.CommandText = "select * from customer where email = @em;";
+
+                DbParameter paramEM = cmdUser.CreateParameter();
+                paramEM.ParameterName = "em";
+                paramEM.DbType = DbType.String;
+                paramEM.Value = email;
+
+                cmdUser.Parameters.Add(paramEM);
+                using (DbDataReader reader = await cmdUser.ExecuteReaderAsync()) {
+                    while (await reader.ReadAsync()) {
+                        u = new user { email = Convert.ToString(reader["email"]), vorname = Convert.ToString(reader["vorname"]), nachname = Convert.ToString(reader["nachname"]), BirthDate = Convert.ToDateTime(reader["geburtstag"]) };
+                    }
+                }
+            }
+            return u;
+        }
+
         public async Task<List<MenuDB>> GetMenuAsync() {
 
             List<MenuDB> menu = new List<MenuDB>();

@@ -15,7 +15,11 @@ namespace LuigiWebsite.Controllers {
 
         [HttpGet]
         public IActionResult Reservation() {
-            return View();
+            Task<user> u = _rep.getUserByEmailAsync(HttpContext.Session.GetString("email"));
+            reservation r = new reservation();
+            r.email = u.
+            r.email = HttpContext.Session.GetString("email");
+            return View(r);
         }
 
         [HttpPost]
@@ -125,6 +129,7 @@ namespace LuigiWebsite.Controllers {
                     await _rep.ConnectAsync();
                     if (await _rep.isUserAsync(email, password)) {
                         HttpContext.Session.SetInt32("login",1);
+                        HttpContext.Session.SetString("email", email);
                         return RedirectToAction("index", "home");
                     } else {
                         return View("_Message", new Message("Login", "Sie haben sich NICHT erfolgreich eingelogt!!",
