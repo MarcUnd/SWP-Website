@@ -17,7 +17,6 @@ namespace LuigiWebsite.Controllers {
         public IActionResult Reservation() {
             Task<user> u = _rep.getUserByEmailAsync(HttpContext.Session.GetString("email"));
             reservation r = new reservation();
-            r.email = u.
             r.email = HttpContext.Session.GetString("email");
             return View(r);
         }
@@ -76,12 +75,14 @@ namespace LuigiWebsite.Controllers {
             if (ModelState.IsValid) {
                 try {
                     await _rep.ConnectAsync();
-                    if (await _rep.InsertAsync(userData)) {
-                       
-                        return RedirectToAction("Login", userData);
+                    if (await _rep.verifyUserByEmail(userData.email)) {
+                        if (await _rep.InsertAsync(userData)) {
+
+                            return RedirectToAction("Login", userData);
+                        }
                     } else {
-                        return View("_Message", new Message("Registration", "Sie haben sich NICHT erfolgreich registriert!!",
-                            "Bitte versuchen sie es spaeter erneut!"));
+                            return View("_Message", new Message("Registration", "Ein User mit dieser Email ist bereits vorhanden!!!",
+                            "Geben sie eine andere Email Adresse ein!"));
                     }
                     //DbException, Basisklasse der Datenbank-Exception
                 } catch (DbException) {
@@ -128,7 +129,7 @@ namespace LuigiWebsite.Controllers {
                 try {
                     await _rep.ConnectAsync();
                     if (await _rep.isUserAsync(email, password)) {
-                        HttpContext.Session.SetInt32("login",1);
+                        HttpContext.Session.SetInt32("login", 1);
                         HttpContext.Session.SetString("email", email);
                         return RedirectToAction("index", "home");
                     } else {

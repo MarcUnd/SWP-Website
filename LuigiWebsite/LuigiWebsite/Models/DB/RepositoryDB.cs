@@ -48,8 +48,13 @@ namespace LuigiWebsite.Models.DB {
                 cmdUser.Parameters.Add(paramEM);
                 using (DbDataReader reader = await cmdUser.ExecuteReaderAsync()) {
                     while (await reader.ReadAsync()) {
-                        u = new user { email = Convert.ToString(reader["email"]), vorname = Convert.ToString(reader["vorname"]), nachname = Convert.ToString(reader["nachname"]), BirthDate = Convert.ToDateTime(reader["geburtstag"]) };
-                    }
+                        u = new user { email = Convert.ToString(reader["email"]),
+                                       CustomerId = Convert.ToInt32(reader["customerID"]),
+                                       vorname = Convert.ToString(reader["vorname"]), 
+                                       nachname = Convert.ToString(reader["nachname"]), 
+                                       password = Convert.ToString(reader["password"]),
+                                       BirthDate = Convert.ToDateTime(reader["geburtstag"]) };
+                        }
                 }
             }
             return u;
@@ -217,6 +222,28 @@ namespace LuigiWebsite.Models.DB {
                 return await cmdRes.ExecuteNonQueryAsync() == 1;
             }
             return false;
+        }
+
+        public async Task<bool> verifyUserByEmail(string email) {
+
+            if (this._conn?.State == ConnectionState.Open) {
+                DbCommand cmdUser = this._conn.CreateCommand();
+
+                cmdUser.CommandText = "select * from customer where email = @em;";
+
+                DbParameter paramEM = cmdUser.CreateParameter();
+                paramEM.ParameterName = "em";
+                paramEM.DbType = DbType.String;
+                paramEM.Value = email;
+
+                cmdUser.Parameters.Add(paramEM);
+                using (DbDataReader reader = await cmdUser.ExecuteReaderAsync()) {
+                    while (await reader.ReadAsync()) {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }

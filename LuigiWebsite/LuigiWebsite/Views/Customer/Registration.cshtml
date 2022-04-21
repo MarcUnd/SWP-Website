@@ -20,7 +20,8 @@
         </div>
         <div class="form-group w-50 mx-auto">
             <label asp-for="email">Email</label>
-            <input type="email" class="form-control" placeholder="luigi.luigi@luigi.luigi" asp-for="email" required />
+            <input id="email" type="email" class="form-control" placeholder="luigi.luigi@luigi.luigi" asp-for="email" onblur="verifyEmail()" required />
+            <span id="ausgabe"></span>
             <span asp-validation-for="email"></span>
 
         </div>
@@ -40,4 +41,15 @@
             <button type="submit" class="ml-5 btn btn-outline-success">Registrieren</button>
         </div>
     </form>
+
+<script>
+    function verifyEmail() {
+        const xhttp = new XMLHttpRequest();
+        var x = document.getElementById("email");
+        xhttp.open("POST", "Models/DB/RepositoryDB.cs/verifyUserByEmail", true);
+        xhttp.send(x);
+        if (xhttp.responseText == )
+        
+    }
+</script>
 
