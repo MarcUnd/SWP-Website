@@ -1,0 +1,29 @@
+﻿@model List<LuigiWebsite.Models.reservation>
+
+@{
+    ViewData["Title"] = " My Reservations";
+}
+
+<h1 style="margin:10px;">My Reservations</h1>
+
+@if ((Model != null) && (Model.Count >= 1)) {
+
+
+    @foreach (reservation r in Model) {
+        <hr color="black" />
+        <div style="text-align:center;">
+            <div style="font-weight: bold; font-size: 15px;">@r.uhrzeit</div>
+            <div>@r.date</div>
+            
+        </div>
+        <br />
+    }
+
+
+
+} else {
+    <p>
+        Sie haben noch keine Reservierungen vorgenommen!
+    </p>
+}
+

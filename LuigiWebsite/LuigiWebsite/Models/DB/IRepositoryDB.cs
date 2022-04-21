@@ -18,6 +18,8 @@ namespace LuigiWebsite.Models.DB {
         Task<bool> ResValidAsync(DateTime dat);
 
         Task<user> getUserByEmailAsync(string email);
+
+        Task<List<reservation>> getReservationsByEmail(string email);
     }
 
 }

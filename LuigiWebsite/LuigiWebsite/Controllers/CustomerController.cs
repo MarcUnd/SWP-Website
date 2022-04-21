@@ -14,11 +14,26 @@ namespace LuigiWebsite.Controllers {
         private IRepositoryDB _rep = new RepositoryDB();
 
         [HttpGet]
-        public IActionResult Reservation() {
-            Task<user> u = _rep.getUserByEmailAsync(HttpContext.Session.GetString("email"));
+        public async Task<IActionResult> Reservation() {
             reservation r = new reservation();
-            r.email = u.
-            r.email = HttpContext.Session.GetString("email");
+            if (HttpContext.Session.GetInt32("login") == 1) {
+                if (ModelState.IsValid) {
+                    try {
+                        await _rep.ConnectAsync();
+
+                        Task<user> u = _rep.getUserByEmailAsync(HttpContext.Session.GetString("email"));
+
+                        r.email = u.Result.email;
+                        r.nachname = u.Result.nachname;
+                        //r.email = HttpContext.Session.GetString("email");
+                    } catch (DbException) {
+                        return View("_Message", new Message("Reservierung", "Datenbankfehler!",
+                               "Versuchen Sie es spaeter erneut!"));
+                    } finally {
+                        await _rep.DisconnectAsync();
+                    }
+                }
+            }
             return View(r);
         }
 
@@ -54,6 +69,16 @@ namespace LuigiWebsite.Controllers {
         }
             return RedirectToAction("reservation");
     }
+        public async Task<IActionResult> MyReservations() {
+            try {
+                await _rep.ConnectAsync();
+                return View(await _rep.getReservationsByEmail(HttpContext.Session.GetString("email")));
+            } catch (DbException) {
+                return View("_Message", new Message("Benutzer", "Datenbankfehler", "Bitte versuchen Sie es später erneut!"));
+            } finally {
+                await _rep.DisconnectAsync();
+            }
+        }
 
 
         private void ValidateReservationData(reservation r) {
@@ -77,7 +102,7 @@ namespace LuigiWebsite.Controllers {
                 try {
                     await _rep.ConnectAsync();
                     if (await _rep.InsertAsync(userData)) {
-                       
+                        
                         return RedirectToAction("Login", userData);
                     } else {
                         return View("_Message", new Message("Registration", "Sie haben sich NICHT erfolgreich registriert!!",

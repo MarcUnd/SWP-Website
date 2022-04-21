@@ -78,6 +78,42 @@ namespace LuigiWebsite.Models.DB {
             return menu;
         }
 
+        public async Task<List<reservation>> getReservationsByEmail(String email) {
+            List<reservation> reservations = new List<reservation>();
+            if (this._conn?.State == ConnectionState.Open) {
+                DbCommand cmdReservation = this._conn.CreateCommand();
+
+                cmdReservation.CommandText = "select * from reservation where email = @em;";
+
+                DbParameter paramEM = cmdReservation.CreateParameter();
+                paramEM.ParameterName = "em";
+                paramEM.DbType = DbType.String;
+                paramEM.Value = email;
+
+                cmdReservation.Parameters.Add(paramEM);
+
+                using (DbDataReader reader = await cmdReservation.ExecuteReaderAsync()) {
+                    while (await reader.ReadAsync()) {
+                        string nachname = Convert.ToString(reader["nachname"]);
+                        string e = Convert.ToString(reader["email"]);
+                        DateTime date = Convert.ToDateTime(reader["datum"]);
+                        DateTime uhrzeit = Convert.ToDateTime(reader["uhrzeit"]);
+
+
+                        reservations.Add(new reservation {
+                            nachname = Convert.ToString(reader["nachname"]),
+                            email = Convert.ToString(reader["email"]),
+                            date = Convert.ToDateTime(reader["datum"]),
+                            uhrzeit = Convert.ToDateTime(reader["uhrzeit"])
+                        });
+                    }
+                }
+                
+            }
+            return reservations;
+
+        }
+
 
         public async Task<bool> InsertAsync(user u) {
 

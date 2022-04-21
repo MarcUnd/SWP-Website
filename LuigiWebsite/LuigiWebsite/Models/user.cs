@@ -27,6 +27,7 @@ namespace LuigiWebsite.Models {
         }
 
         public user() { }
+
         
     }
 }
