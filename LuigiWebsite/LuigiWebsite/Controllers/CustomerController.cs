@@ -124,6 +124,23 @@ namespace LuigiWebsite.Controllers {
             return View();
         }
 
+        public IActionResult CheckEmail(string email) {
+            /*
+             
+             */
+
+
+
+            if (email == "test@tsn.at") {
+                return new JsonResult(true);
+
+            } else {
+                return new JsonResult(false);
+            }
+
+          
+        }
+
 
         private void ValidateRegistrationData(user u) {
             if (u == null) {

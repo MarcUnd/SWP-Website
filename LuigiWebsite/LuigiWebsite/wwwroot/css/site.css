@@ -73,3 +73,7 @@ Iframe{
     margin: auto;
     border: 3px solid green;
 }
+
+.redBorder{
+    border: 2px solid red;
+}

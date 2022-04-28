@@ -5,7 +5,7 @@
 
     <h1>Registration</h1>
 
-    <form asp-controller="customer" asp-action="registration" method="post">
+    <form id ="fromReg" asp-controller="customer" asp-action="registration" method="post">
         <div class="form-group w-50 mx-auto">
             <label asp-for="vorname">Vorname</label>
             <input type="text" class="form-control" placeholder="Luigi" asp-for="vorname" required />
@@ -21,7 +21,7 @@
         <div class="form-group w-50 mx-auto">
             <label asp-for="email">Email</label>
             <input id="email" type="email" class="form-control" placeholder="luigi.luigi@luigi.luigi" asp-for="email" onblur="verifyEmail()" required />
-            <span id="ausgabe"></span>
+            <span id="ausgabe" style="color:red;visibility:hidden;font-weight:bold"></span>
             <span asp-validation-for="email"></span>
 
         </div>
@@ -42,14 +42,10 @@
         </div>
     </form>
 
-<script>
-    function verifyEmail() {
-        const xhttp = new XMLHttpRequest();
-        var x = document.getElementById("email");
-        xhttp.open("POST", "Models/DB/RepositoryDB.cs/verifyUserByEmail", true);
-        xhttp.send(x);
-        if (xhttp.responseText == )
-        
-    }
-</script>
+
+
+
+@section Scripts{ 
+    <script src="~/js/registration.js" asp-append-version="true"></script>
+}
 
