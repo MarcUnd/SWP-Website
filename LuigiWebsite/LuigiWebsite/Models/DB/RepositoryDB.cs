@@ -83,7 +83,7 @@ namespace LuigiWebsite.Models.DB {
             return menu;
         }
 
-        public async Task<List<reservation>> getReservationsByEmail(String email) {
+        public async Task<List<reservation>> getReservationsByEmailAsync(String email) {
             List<reservation> reservations = new List<reservation>();
             if (this._conn?.State == ConnectionState.Open) {
                 DbCommand cmdReservation = this._conn.CreateCommand();
@@ -260,7 +260,7 @@ namespace LuigiWebsite.Models.DB {
             return false;
         }
 
-        public async Task<bool> verifyUserByEmail(string email) {
+        public async Task<bool> verifyUserByEmailAsync(string email) {
 
             if (this._conn?.State == ConnectionState.Open) {
                 DbCommand cmdUser = this._conn.CreateCommand();
