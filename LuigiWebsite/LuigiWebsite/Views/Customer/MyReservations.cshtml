@@ -13,8 +13,9 @@
         <hr color="black" />
         <div style="text-align:center;">
             <div style="font-weight: bold; font-size: 15px;">@r.uhrzeit</div>
-            <div>@r.date</div>
-            
+            <form action="/customer/delete/@r.ResId">
+                <input type="submit" value="löschen" />
+            </form>
         </div>
         <br />
     }

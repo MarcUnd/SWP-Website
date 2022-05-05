@@ -99,24 +99,46 @@ namespace LuigiWebsite.Models.DB {
 
                 using (DbDataReader reader = await cmdReservation.ExecuteReaderAsync()) {
                     while (await reader.ReadAsync()) {
-                        string nachname = Convert.ToString(reader["nachname"]);
-                        string e = Convert.ToString(reader["email"]);
+
+                        string uhr = Convert.ToString(reader["uhrzeit"]);
+                        string dat = Convert.ToString(reader["datum"]);
+
+                        DateTime uhrzeit = DateTime.Parse(uhr);
+                        DateTime date = DateTime.Parse(dat);
+                        DateTime time = new DateTime(date.Year,date.Month,date.Day,uhrzeit.Hour,uhrzeit.Minute,uhrzeit.Second); 
                        
-                        DateTime date = Convert.ToDateTime(reader["datum"]);
-                        DateTime uhrzeit = Convert.ToDateTime(reader["uhrzeit"]);
 
 
                         reservations.Add(new reservation {
                             nachname = Convert.ToString(reader["nachname"]),
                             email = Convert.ToString(reader["email"]),
-                            date = Convert.ToDateTime(reader["datum"]),
-                            uhrzeit = Convert.ToDateTime(reader["uhrzeit"])
+                            date = date,
+                            uhrzeit = time 
                         });
                     }
                 }
                 
             }
             return reservations;
+
+        }
+
+        public async Task<bool> DeleteAsync(int resId) {
+
+            if (this._conn?.State == ConnectionState.Open) {
+                DbCommand cmdDeleteRes = this._conn.CreateCommand();
+                cmdDeleteRes.CommandText = "delete from reservations where resID  = @resid;";
+                DbParameter paramID = cmdDeleteRes.CreateParameter();
+                paramID.ParameterName = "resId";
+                paramID.DbType = DbType.Int32;
+                paramID.Value = resId;
+                cmdDeleteRes.Parameters.Add(paramID);
+
+                return await cmdDeleteRes.ExecuteNonQueryAsync() == 1;
+            } 
+
+                return false;
+            
 
         }
 
@@ -276,11 +298,11 @@ namespace LuigiWebsite.Models.DB {
                 cmdUser.Parameters.Add(paramEM);
                 using (DbDataReader reader = await cmdUser.ExecuteReaderAsync()) {
                     while (await reader.ReadAsync()) {
-                        return false;
+                        return true;
                     }
                 }
             }
-            return true;
+            return false;
         }
     }
 }
