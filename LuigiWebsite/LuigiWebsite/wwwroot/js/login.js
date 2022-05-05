@@ -6,7 +6,9 @@ $(document).ready(() => {
     $("#email").blur(() => {
 
         $.ajax({
-            url: "/customer/checkEmail", method: "GET", data: { email: $("#email").val() }
+            url: "/customer/CheckEmailAsync",
+            method: "GET",
+            data: { email: $("#email").val() }
         })
 
             .done((dataFromServer) => {

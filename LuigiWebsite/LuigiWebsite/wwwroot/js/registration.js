@@ -6,22 +6,23 @@ $(document).ready(() => {
     $("#email").blur(() => {
 
         $.ajax({
-            url: "/customer/checkEmail", method: "GET", data: { email: $("#email").val() }
+            url: "/customer/CheckEmailAsync",
+            method: "GET",
+            data: { email: $("#email").val() }
         })
-
             .done((dataFromServer) => {
                 //alert("serverurl erreichbar " + dataFromServer)
                 if (dataFromServer === true) {
                     $("#ausgabe").css("visibility", "visible");
                     $("#email").addClass("redBorder");
-
-                    document.getElementById("ausgabe").innerHTML = "This email is already taken!"
+                    document.getElementById("ausgabe").innerHTML = "Es existiert bereits ein Account mit dieser Email Adresse!";
                 } else {
                     $("#ausgabe").css("visibility", "hidden");
                     $("#email").removeClass("redBorder");
+                    document.getElementById("ausgabe").innerHTML = "is ogge";
+
                 }
             })
-
             .fail(() => {
                 alert("serverurl nicht erreichbar")
             });
