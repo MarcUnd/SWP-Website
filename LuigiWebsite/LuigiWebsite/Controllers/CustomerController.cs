@@ -139,6 +139,19 @@ namespace LuigiWebsite.Controllers {
             //               "Bitte versuchen sie es spaeter erneut!"));
             //}
         }
+        public IActionResult Delete(int id) {
+            try {
+                _rep.ConnectAsync();
+                _rep.Delete(id);
+                return View("_Message", new Message("Benutzer", "Benutzer wurde  gelöscht"));
+
+            } catch (DbException) {
+                return View("_Message", new Message("Benutzer", "Benutzer wurde nicht gelöscht", "Bitte versuchen Sie es später erneut!"));
+            } finally {
+                _rep.DisconnectAsync();
+            }
+
+        }
 
 
         private void ValidateRegistrationData(user u) {
