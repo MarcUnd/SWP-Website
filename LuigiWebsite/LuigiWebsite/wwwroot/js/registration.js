@@ -30,10 +30,6 @@ $(document).ready(() => {
        
     });
 
-    $("#btnToggle").click(() => {
-        $("#fromReg").toggle(2000);
-    })
-
 });
 
 

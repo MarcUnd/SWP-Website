@@ -124,19 +124,20 @@ namespace LuigiWebsite.Controllers {
             return View();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> CheckEmailAsync(string email) {
-            try {
-                await _rep.ConnectAsync();
+        
+        public IActionResult CheckEmailAsync(string email) {
+            // try {
+                /*await _rep.ConnectAsync();
                 if (await _rep.verifyUserByEmailAsync(email)) {
+                */
                     return new JsonResult(true);
-                } else {
-                    return new JsonResult(false);
-                }
-            } catch (DbException) {
-                return View("_Message", new Message("Registration", "Datenbankfehler!",
-                           "Bitte versuchen sie es spaeter erneut!"));
-            }
+                //} else {
+                //    return new JsonResult(false);
+                //}
+            //} catch (DbException) {
+            //    return View("_Message", new Message("Registration", "Datenbankfehler!",
+            //               "Bitte versuchen sie es spaeter erneut!"));
+            //}
         }
 
 
