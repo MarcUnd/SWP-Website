@@ -142,7 +142,7 @@ namespace LuigiWebsite.Controllers {
         public IActionResult Delete(int id) {
             try {
                 _rep.ConnectAsync();
-                _rep.Delete(id);
+                _rep.DeleteAsync(id);
                 return View("_Message", new Message("Benutzer", "Benutzer wurde  gelöscht"));
 
             } catch (DbException) {

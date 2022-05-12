@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LuigiWebsite.Models.DB {
     interface IRepositoryDB {
-        Task<bool> DeleteAsync();
+        Task<bool> DeleteAsync(int id);
         Task ConnectAsync();
         Task DisconnectAsync();
 
