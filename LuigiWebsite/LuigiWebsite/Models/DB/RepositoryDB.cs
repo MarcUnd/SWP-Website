@@ -113,7 +113,8 @@ namespace LuigiWebsite.Models.DB {
                             nachname = Convert.ToString(reader["nachname"]),
                             email = Convert.ToString(reader["email"]),
                             date = date,
-                            uhrzeit = time 
+                            uhrzeit = time,
+                            ResId = Convert.ToInt32(reader["resID"])
                         });
                     }
                 }
@@ -127,7 +128,7 @@ namespace LuigiWebsite.Models.DB {
 
             if (this._conn?.State == ConnectionState.Open) {
                 DbCommand cmdDeleteRes = this._conn.CreateCommand();
-                cmdDeleteRes.CommandText = "delete from reservations where resID  = @resid;";
+                cmdDeleteRes.CommandText = "delete from reservation where resID  = @resid;";
                 DbParameter paramID = cmdDeleteRes.CreateParameter();
                 paramID.ParameterName = "resId";
                 paramID.DbType = DbType.Int32;

@@ -20,7 +20,6 @@ namespace LuigiWebsite.Controllers {
                 if (ModelState.IsValid) {
                     try {
                         await _rep.ConnectAsync();
-
                         Task<user> u = _rep.getUserByEmailAsync(HttpContext.Session.GetString("email"));
 
                         r.email = u.Result.email;
@@ -72,6 +71,7 @@ namespace LuigiWebsite.Controllers {
         public async Task<IActionResult> MyReservations() {
             try {
                 await _rep.ConnectAsync();
+                var x = await _rep.getReservationsByEmailAsync(HttpContext.Session.GetString("email"));
                 return View(await _rep.getReservationsByEmailAsync(HttpContext.Session.GetString("email")));
             } catch (DbException) {
                 return View("_Message", new Message("Benutzer", "Datenbankfehler", "Bitte versuchen Sie es später erneut!"));
@@ -139,16 +139,17 @@ namespace LuigiWebsite.Controllers {
             //               "Bitte versuchen sie es spaeter erneut!"));
             //}
         }
-        public IActionResult Delete(int id) {
+
+        public async Task<IActionResult> Delete(int id) {
             try {
-                _rep.ConnectAsync();
-                _rep.DeleteAsync(id);
-                return View("_Message", new Message("Benutzer", "Benutzer wurde  gelöscht"));
+                await _rep.ConnectAsync();
+                await _rep.DeleteAsync(id);
+                return RedirectToAction("MyReservations");
 
             } catch (DbException) {
-                return View("_Message", new Message("Benutzer", "Benutzer wurde nicht gelöscht", "Bitte versuchen Sie es später erneut!"));
+                return View("_Message", new Message("Reservation", "Reservierung wurde nicht gelöscht", "Bitte versuchen Sie es später erneut!"));
             } finally {
-                _rep.DisconnectAsync();
+                await _rep.DisconnectAsync();
             }
 
         }
