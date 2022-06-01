@@ -52,7 +52,7 @@ namespace LuigiWebsite.Models.DB {
                                        CustomerId = Convert.ToInt32(reader["customerID"]),
                                        vorname = Convert.ToString(reader["vorname"]), 
                                        nachname = Convert.ToString(reader["nachname"]), 
-                                       password = Convert.ToString(reader["password"]),
+                                       password = Convert.ToString(reader["passwort"]),
                                        BirthDate = Convert.ToDateTime(reader["geburtstag"]) };
                         }
                 }

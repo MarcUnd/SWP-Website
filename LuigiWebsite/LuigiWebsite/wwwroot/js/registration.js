@@ -6,7 +6,7 @@ $(document).ready(() => {
     $("#email").blur(() => {
 
         $.ajax({
-            url: "/customer/CheckEmailAsync",
+            url: "/customer/CheckEmail",
             method: "GET",
             data: { email: $("#email").val() }
         })

@@ -20,10 +20,10 @@ namespace LuigiWebsite.Controllers {
                 if (ModelState.IsValid) {
                     try {
                         await _rep.ConnectAsync();
-                        Task<user> u = _rep.getUserByEmailAsync(HttpContext.Session.GetString("email"));
+                        user u = await _rep.getUserByEmailAsync(HttpContext.Session.GetString("email"));
 
-                        r.email = u.Result.email;
-                        r.nachname = u.Result.nachname;
+                        r.email = u.email;
+                        r.nachname =u.nachname;
                         //r.email = HttpContext.Session.GetString("email");
                     } catch (DbException) {
                         return View("_Message", new Message("Reservierung", "Datenbankfehler!",
@@ -41,6 +41,7 @@ namespace LuigiWebsite.Controllers {
             if(reservationData == null) {
                 return View();
             }
+            ValidateReservationData(reservationData);
             if (ModelState.IsValid) {
                 try {
                     await _rep.ConnectAsync();
@@ -66,7 +67,7 @@ namespace LuigiWebsite.Controllers {
                 await _rep.DisconnectAsync();
             }
         }
-            return RedirectToAction("reservation");
+            return View(reservationData);
     }
         public async Task<IActionResult> MyReservations() {
             try {
@@ -91,13 +92,17 @@ namespace LuigiWebsite.Controllers {
             if (r.email == null) {
                 ModelState.AddModelError("email", "Bitte tragen sie einen Emailaddresse ein!");
             }
-            if (r.date < DateTime.Now.AddDays(-1)) {
-                ModelState.AddModelError("date", "Das Datum kann nicht in der Vergangenheit liegen!");
+            if (r.date < DateTime.Now) {
+                ModelState.AddModelError("date", "Bitte wählen SIe ein Datum, das in der Zukunft liegt!");
             }
         }
 
         [HttpPost]
         public async Task<IActionResult> Registration(user userData) {
+            if(userData == null) {
+                return View();
+            }
+            ValidateRegistrationData(userData);
             if (ModelState.IsValid) {
                 try {
                     await _rep.ConnectAsync();
@@ -124,20 +129,15 @@ namespace LuigiWebsite.Controllers {
             return View();
         }
 
-        
-        public IActionResult CheckEmailAsync(string email) {
-            // try {
-                /*await _rep.ConnectAsync();
-                if (await _rep.verifyUserByEmailAsync(email)) {
-                */
-                    return new JsonResult(true);
-                //} else {
-                //    return new JsonResult(false);
-                //}
-            //} catch (DbException) {
-            //    return View("_Message", new Message("Registration", "Datenbankfehler!",
-            //               "Bitte versuchen sie es spaeter erneut!"));
-            //}
+        [HttpGet]
+        public async Task<IActionResult> CheckEmail(string email) {
+            try {
+                await _rep.ConnectAsync();
+                return new JsonResult(await _rep.verifyUserByEmailAsync(email)); 
+            } catch (DbException) {
+                return View("_Message", new Message("Registration", "Datenbankfehler!",
+                           "Bitte versuchen sie es spaeter erneut!"));
+            }
         }
 
         public async Task<IActionResult> Delete(int id) {
@@ -169,7 +169,7 @@ namespace LuigiWebsite.Controllers {
                 ModelState.AddModelError("password", "Ihr Passwort muss mindesten acht Zeichen lang sein!");
             }
             if (u.BirthDate > DateTime.Now || u.BirthDate.AddYears(16) > DateTime.Now) {
-                ModelState.AddModelError("BirthDate", "Das Geburstdatum kann nicht in der Zukunft liegen!");
+                ModelState.AddModelError("BirthDate", "Sie müssen mindestens 16 Jahre alt sein und das Geburstdatum kann nicht in der Zukunft liegen!");
             }
             if (u.email == null) {
                 ModelState.AddModelError("email", "Bitte tragen sie eine Email-Addresse ein!");
